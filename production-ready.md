@@ -29,13 +29,16 @@ of a controlled pre-production environment identical to production.
 - [ ] Does it support configuration via environment variables?
 - [ ] Does it support configuration via flatfile (e.g. YAML)?
 - [ ] Does it have a sane default configuration (e.g. as close to a realistic production configuration as possible)?
-- [ ] Can it run on parallel HTTP workers? (e.g. uWSGI, Gunicorn)?
-- [ ] Can it log to standard out/error?
-- [ ] Can it log to syslog?
+- [ ] Does it run on parallel HTTP workers? (e.g. uWSGI, Gunicorn)?
+- [ ] Does it log to standard out/error?
+- [ ] Does it log to syslog?
 - [ ] Can it send stack trace emails to a configurable email list?
 - [ ] Does it have configurable log levels (e.g. DEBUG, ERROR, WARNING, INFO)?
 - [ ] Does it have a test suite which measures code coverage?
-- [ ] Does it have a status route (which requires a secret token) that can be used for health checking by a monitoring service.
+- [ ] Does it have a status route (which requires a secret token) that can be used for health checking by a monitoring service?
+- [ ] Does the health check validate that each service the app depends on is reachable (e.g. databases, caching, external APIs when necessary)?
+- [ ] Does the health check return a response body with the availability information above in a machine-readable format in all cases?
+- [ ] Does the health check return a 500 status code when any component in the health check is detected to be failing?
 
 ### Required documentation/service infrastructure:
 
