@@ -45,8 +45,8 @@ of a controlled pre-production environment identical to production.
 - [ ] Does it have continuous integration builds which run the full test suite?
 - [ ] Does it have an automated continuous delivery to a development environment?
 - [ ] Does it have a documented release process?
-- [ ] Does it's release process include staging and production builds, where staging builds are promoted to production?
-- [ ] Does it's release process require that code changes be "signed off" as working on staging before being promoted to production?
+- [ ] Does its release process include staging and production builds, where staging builds are promoted to production?
+- [ ] Does its release process require that code changes be "signed off" as working on staging before being promoted to production?
 - [ ] Does it have application/resource monitoring in production (e.g. New Relic agent, Zenoss SNMP)?
 - [ ] Does it have service availability monitoring in production (e.g. periodic health checks with Zenoss or New Relic)?
 - [ ] Does it have automated, periodically generated, fully restorable backups for each non-ephemeral data store in production?
