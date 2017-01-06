@@ -75,6 +75,7 @@ Before (or after) you submit the PR, add the "Needs Review" label to it.
 
 
 **TL;DR**
+
 1. Click "New Pull Request"
 1. Fill in (or confirm) the appropriate **base** and **compare** branches
 1. Fill in all the relevant sections in the PR template (especially "relevant tickets", which should
@@ -101,6 +102,7 @@ the developer and not the reviewer. Again, you should read the
 some advice on avoiding this kind of unresolvable disagreement.
 
 **TL;DR**
+
 - Make changes/respond to comments as needed and reset the PR label to "Needs Review"
 - PR is considered "approved" when you get a +1 (thumbs up) from the assigned reviewer
 
