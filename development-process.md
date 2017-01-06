@@ -79,7 +79,7 @@ Before (or after) you submit the PR, add the "Needs Review" label to it.
 1. Click "New Pull Request"
 1. Fill in (or confirm) the appropriate **base** and **compare** branches
 1. Fill in all the relevant sections in the PR template (especially "relevant tickets", which should
-   typically read "fixes #<issue_number>")
+   typically read "Closes #*ISSUE_NUMBER*" or "Fixes #*ISSUE_NUMBER*")
 1. Add the "Needs Review" label
 1. Submit and wait for comments/approval
 
