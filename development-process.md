@@ -52,7 +52,7 @@ for running automated tests.
 
 _When you've completed the given issue, the code is passing tests, and you feel like it's ready
 to ship, it's time to start code review. Make sure you read through the
-[Code Review guide](https://github.com/mitodl/handbook/blob/master/code_review.md) to get a sense
+[Code Review guide](https://github.com/mitodl/handbook/blob/master/code-review.md#everyone) to get a sense
 about why we do code reviews and how to approach them, both as a reviewer and reviewee._
 
 #### &#10146; Open a Pull Request ("PR")
