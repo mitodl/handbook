@@ -98,7 +98,7 @@ if there is someone very familiar with the code you're working on, but isn't the
 
 In the unlikely event of a disagreement that can't be resolved, the final decision should be taken by
 the developer and not the reviewer. Again, you should read the
-[Code Review guide](https://github.com/mitodl/handbook/blob/master/code_review.md#everyone), which has
+[Code Review guide](https://github.com/mitodl/handbook/blob/master/code-review.md#everyone), which has
 some advice on avoiding this kind of unresolvable disagreement.
 
 **TL;DR**
