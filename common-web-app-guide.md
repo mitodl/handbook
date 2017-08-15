@@ -24,7 +24,7 @@
 
 All commands in this guide should be run from the root directory of your project's repository (unless specified otherwise).
 
-### _(OSX only)_ Create a Docker VM for this app
+### _[OSX only]_ Create a Docker VM for this app
 
 Replace `MACHINENAME` with a name that indicates the project (e.g.: `mm` or `micromasters` for the MicroMasters project). Allowed characters for the machine name: alphanumeric characters, periods, and dashes.
 
