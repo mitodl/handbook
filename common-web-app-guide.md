@@ -65,18 +65,18 @@ You will be prompted for the username and some other details for this user.
 eval "$(docker-machine env MACHINENAME)"
 ```
 
-#### 2) _[OSX only]_ Set up and run the webpack dev server on your host machine
+#### 2) Run the container
+Start all the services that are required to run the app:
+
+    docker-compose up
+    
+#### 3) _[OSX only]_ Set up and run the webpack dev server on your host machine
 
 In a separate terminal tab, use the webpack helper script to install npm modules and run the dev server:
 
     ./webpack_dev_server.sh --install
 
 *NOTE: The ``--install`` flag is only needed if you're starting up for the first time, or if updates have been made to the packages in ``./package.json``.*
-
-#### 3) Run the container
-Start all the services that are required to run the app:
-
-    docker-compose up
 
 #### 4) Navigate to the running app in your browser
 
