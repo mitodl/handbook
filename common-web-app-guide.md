@@ -129,10 +129,6 @@ npm run-script flow
 
 # Troubleshooting
 
-#### _[OSX only]_ `docker-compose up` hanging on "Waiting for an IP..." or "Waiting for SSH to be available..."
-
-These errors can often be solved by powering off the VM in VirtualBox and trying again (docker-machine will automatically restart the VM). Open the VirtualBox app, right-click on the machine in the left column, and click Close > Power Off.
-
 #### `node-sass` error when running the webpack_dev_server.sh script or `yarn install`
 
 Try running `npm rebuild node-sass`, then running the previous command again.
@@ -140,6 +136,18 @@ Try running `npm rebuild node-sass`, then running the previous command again.
 #### Error message indicating that the `auth_user` table doesn't exist
 
 Try running `docker-compose run web ./manage.py migrate auth`, then run `docker-compose run web ./manage.py migrate`.
+
+#### _[OSX only]_ `docker-compose up` or `docker-machine start MACHINENAME` hanging on "Waiting for an IP..." or "Waiting for SSH to be available..."
+
+These errors can often be solved by powering off the VM in VirtualBox and trying again (docker-machine will automatically restart the VM). Open the VirtualBox app, right-click on the machine in the left column, and click Close > Power Off. If Close > Power Off is not available, the error may be related to the saved machine state. Try clicking 'Discard Saved State'. After either powering off the machine or discarding the saved state, run `docker-machine restart MACHINENAME`.
+
+#### _[OSX only]_ "Error checking TLS connection ...  You can attempt to regenerate them using `docker-machine regenerate-certs [name]`."
+
+This sometimes happens after the machine has been sleeping. The best known way to address it is to run the suggested command - `docker-machine regenerate-certs MACHINENAME` - and confirm with 'y' when prompted. This has the unfortunate effect of changing the IP address of the machine, so you'll need to navigate to a different URL in your browser to see the running site. For example, your machine URL might have been `http://192.168.99.100:8079/`. After running `regenerate-certs`, the IP might change to `http://192.168.99.101:8079/`. To check the IP of your machine, run `docker-machine ip MACHINENAME`.
+
+#### _[OSX only]_ Error indicating that Docker for Mac is not running (even though it is running)
+
+Open a new terminal tab/window, navigate to the same directory, and re-run the same command (e.g.: `docker-compose up`). For whatever reason, a terminal window can sometimes fail to recognize that Docker for Mac is running, and a fresh terminal window will fix that.
 
 #### _[OSX only]_ Everything is broken and I need a fresh start
 
