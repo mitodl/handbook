@@ -140,7 +140,7 @@ This is the recommended method, but you can also try accomplishing this with a s
 
     git fetch
     git merge-base CURRENT_BRANCH master
-    # 'merge-base will' give you a commit hash. Copy that value for this next command
+    # 'merge-base' will give you a commit hash. Copy that value for this next command
     git reset --soft COMMIT_HASH
     git commit -am "YOUR_COMMIT_MESSAGE"
     # The above will cause your branch to diverge, so you'll need force-push.
