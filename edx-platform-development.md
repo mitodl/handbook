@@ -18,7 +18,7 @@ This is the state of `edx-platform` development at MIT ODL. If this doesn't make
 
 There are 2 different methods for running devstack on your own machine: Vagrant ([guide](https://openedx.atlassian.net/wiki/spaces/OpenOPS/pages/60227787/Running+Vagrant-based+Devstack)) and Docker ([guide](https://github.com/edx/devstack)). The edX team is focusing all future development on the Docker-based method, starting after the Ginkgo release. MIT ODL developers should run devstack using these guidelines:
 
-1. If you are working on a branch based on the `Ginkgo` release or any release before that, use **Vagrant**
+1. If you are working on a branch based on the `Ginkgo` release or any release before that, use **Vagrant**. A pre-built vagrant box based on the `mitx/ginkgo` fork can be downloaded [here](https://s3.amazonaws.com/public.mitx.mit.edu/vagrant/mitx-ginkgo/mitx_devstack_ginkgo.tar.gz).
 2. If you are working on a branch based on any release that came after `Ginkgo` (`Hawthorn`, etc.), use **Docker**
 
 ### `edx-platform` Repository/Branch
