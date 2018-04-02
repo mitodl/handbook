@@ -10,8 +10,8 @@ At MIT ODL, we often work on edX platform features and bugfixes. There are [mult
 
 This is the state of `edx-platform` development at MIT ODL. If this doesn't make sense, read below.
 
-- MIT ODL main development branch: **`mitx/ginkgo`**
-- Accepted method for running devstack on that branch: **Vagrant**
+- MIT ODL main development branch: **`mitx/master`**
+- Accepted method for running devstack on that branch: **Docker**
 - Unless an issue explicitly says otherwise, you should always do `edx-platform` work in the MIT ODL fork, in a branch off of the main development branch specified above, and any PRs should be opened against that branch. 
 
 ### Running devstack
