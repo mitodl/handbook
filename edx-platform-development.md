@@ -6,7 +6,7 @@ At MIT ODL, we often work on edX platform features and bugfixes. There are [mult
 
 ### Current State of Things 
 
-*(updated 01/22/2018)*
+*(updated 04/02/2018)*
 
 This is the state of `edx-platform` development at MIT ODL. If this doesn't make sense, read below.
 
