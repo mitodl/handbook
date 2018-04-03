@@ -40,19 +40,21 @@ Replace `MACHINENAME` with a name that indicates the project (e.g.: `mm` or `mic
     cp .env.example .env
 
 #### 2) Build the containers
-Run this command:
 
     docker-compose build
 
-*NOTE: You will also need to run this command whenever ``requirements.txt`` or ``test_requirements.txt`` change.*
+*NOTE: You will also need to run this command whenever requirements files change (``requirements.txt``, ``test_requirements.txt``, etc.)*
 
-#### 3) Create data structures
-Create the database tables from the Django models:
+#### 3) Create database tables from the Django models
 
     docker-compose run web ./manage.py migrate
 
-#### 3) Create a superuser
-You will be prompted for the username and some other details for this user.
+*NOTE: You will also need to run this command whenever there are new migrations (i.e.: database models have been changed/added/removed).*
+
+#### (Optional) Create a superuser
+Some of our apps include user creation as part of their specific setup steps. If the given app does not
+include steps to create a user, you can create one easily via Django's `createsuperuser` command.
+It will prompt you for the username and some other details for this user.
 
     docker-compose run web ./manage.py createsuperuser
 
@@ -65,7 +67,8 @@ You will be prompted for the username and some other details for this user.
 eval "$(docker-machine env MACHINENAME)"
 ```
 
-#### 2) Run the container
+#### 2) Run the containers
+
 Start all the services that are required to run the app:
 
     docker-compose up
@@ -88,16 +91,13 @@ Your app should now be accessible via browser:
 1. _[Linux only]:_ Navigate to `localhost:PORT` (e.g.: `localhost:8079`)
 1. _[OSX only]:_ Run ``docker-machine ip`` to see the IP that has been assigned for your docker VM, then navigate to `YOUR_MACHINE_IP:PORT` (e.g.: `192.168.99.100:8079`)
 
-### Running Commands and Testing
-
-You can run a Django shell with the following command:
-
-    docker-compose run web ./manage.py shell
+# Testing
 
 There are a few different commands for running tests/linters:
 
 ```bash
-# Run the full suite via helper script
+# In most of our projects we include a shell script that runs 
+# the entire test suite.
 ./test_suite.sh
 
 ### PYTHON TESTS/LINTING
@@ -111,7 +111,8 @@ docker-compose run web tox /path/to/test.py -- -k test_some_logic
 docker-compose run web pylint
 
 ### JS/CSS TESTS/LINTING
-# Run JS tests via helper script (this file may exist at the project root or in ./scripts/test)
+# We also include a helper script to execute JS tests in most of our projects 
+# (this file may exist at the project root or in ./scripts/test)
 ./js_test.sh
 # Run JS tests in specific file
 ./js_test.sh path/to/file.js
@@ -121,11 +122,13 @@ docker-compose run web pylint
 docker-compose run watch npm run lint
 # Run SCSS linter
 docker-compose run watch npm run scss_lint
-# [Linux] Run JS type-checking
-docker-compose run watch npm run flow
-# [OSX] Run JS type-checking
-npm run-script flow
 ```
+
+# Running Commands
+
+You can run a Django shell with the following command:
+
+    docker-compose run web ./manage.py shell
 
 # Troubleshooting
 
