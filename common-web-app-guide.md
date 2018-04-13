@@ -118,10 +118,14 @@ docker-compose run web pylint
 ./js_test.sh path/to/file.js
 # Run JS tests in specific file with a description that matches some text
 ./js_test.sh path/to/file.js "should test basic arithmetic"
+### OSX USERS:
+### Run the commands below WITHOUT `docker-compose run watch`
 # Run the JS linter
 docker-compose run watch npm run lint
 # Run SCSS linter
 docker-compose run watch npm run scss_lint
+# Run prettier-eslint, fixes style issues
+docker-compose run watch npm run fmt
 ```
 
 # Running Commands
