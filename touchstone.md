@@ -82,12 +82,12 @@ SOCIAL_AUTH_SAML_SECURITY_CONFIG = {
 - Add a step to the social-auth pipeline for creating a user profile, for example:
 
    ```python
-   # settings.py
-   SOCIAL_AUTH_PIPELINE = (
-    .....
-    # require a profile if they're not set via SAML
-    'authentication.pipeline.user.require_profile_update_user_via_saml',
-    .....
+    # settings.py
+    SOCIAL_AUTH_PIPELINE = (
+      .....
+      # require a profile if they're not set via SAML
+      'authentication.pipeline.user.require_profile_update_user_via_saml',
+      .....
     )
     
     # authentication/pipeline/user.py
@@ -97,14 +97,14 @@ SOCIAL_AUTH_SAML_SECURITY_CONFIG = {
     ):  # pylint: disable=unused-argument    
         if backend.name != SAMLAuth.name or not is_new:
             return {}
-    
+
         profile, _ = Profile.objects.update_or_create(
             user=user,
             defaults={
                 'name': user.get_full_name()
             },
         )
-    
+
         return {
             'user': user,
             'profile': profile,
