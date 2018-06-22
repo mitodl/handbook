@@ -71,7 +71,7 @@ SOCIAL_AUTH_SAML_ENABLED_IDPS = {
 
 SOCIAL_AUTH_SAML_SECURITY_CONFIG = {
     "wantAssertionsEncrypted": True, # Mandatory for Touchstone
-    "requestedAuthnContext": False  # Enable web certificate option in Touchstone
+    "requestedAuthnContext": False  # If false, enables web certificate option in Touchstone
 }
 
 ```
