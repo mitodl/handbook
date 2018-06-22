@@ -20,7 +20,8 @@
   - https://idp.mit.edu/idp/shibboleth
   
 ### Django metadata view and URL
-- Create a public (no authentication) Django view to display SAML metadata in your app. For example:
+Create a public (no authentication) Django view to display SAML metadata in your app. For example:
+
   ```python
     from social_django.utils import load_strategy, load_backend
   
@@ -34,13 +35,16 @@
         metadata, _ = saml_backend.generate_metadata_xml()
         return HttpResponse(content=metadata, content_type='text/xml')
   ```
-- Create a url for the view
+  
+Create a url for the view:
+
    ```python
     url(r'^saml/metadata/', saml_metadata, name='saml-metadata'),
    ```  
 
 ### Metadata configuration
-- Using settings and environment variables, populate the required info for the SAML metadata:
+Using settings and environment variables, populate the required info for the SAML metadata:
+
 ```python
 SOCIAL_AUTH_SAML_SP_ENTITY_ID = '<Use the full metadata URL, ie https://myserver.edu/saml/metadata>'
 SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = '<x509 certificate with all line breaks removed>'
@@ -79,7 +83,7 @@ SOCIAL_AUTH_SAML_SECURITY_CONFIG = {
 
 ### Social auth pipeline: add a profile for the user
 
-- Add a step to the social-auth pipeline for creating a user profile, for example:
+Add a step to the social-auth pipeline for creating a user profile, for example:
 
    ```python
     # settings.py
