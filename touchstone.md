@@ -1,4 +1,4 @@
-#Touchstone integration via python-social-auth
+# Touchstone integration via python-social-auth
 
 ### Pre-requisites
 - Python packages
@@ -116,8 +116,9 @@ SOCIAL_AUTH_SAML_SECURITY_CONFIG = {
 Contact touchstone-support@mit.edu and request to register your app.  
 
 Include the x509 certificate string along with the following:
-
+```
 Web server host name: URL of your SAML metadata
 Contact email address: odl-discussions-support@mit.edu
 Organization Name: MIT Office of Digital Learning
 Organization URL: https://openlearning.mit.edu  
+```
