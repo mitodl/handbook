@@ -42,20 +42,20 @@
 ### Metadata configuration
 - Using settings and environment variables, populate the required info for the SAML metadata:
 ```python
-SOCIAL_AUTH_SAML_SP_ENTITY_ID = '&lt;Use the full metadata URL, ie https://myserver.edu/saml/metadata&gt>'
-SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = '&lt;x509 certificate with all line breaks removed&gt>'
-SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = '&lt;x509 key with all line breaks removed&gt>'
+SOCIAL_AUTH_SAML_SP_ENTITY_ID = '<Use the full metadata URL, ie https://myserver.edu/saml/metadata>'
+SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = '<x509 certificate with all line breaks removed>'
+SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = '<x509 key with all line breaks removed>'
 
 SOCIAL_AUTH_SAML_ORG_INFO = {
     "en-US": {
         "name": urlparse(SITE_BASE_URL).netloc,
-        "displayname": "&lt;Enter any approproate value&gt;",
+        "displayname": "<Enter any approproate value>",
         "url": SITE_BASE_URL
     }
 }
 SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
-    "givenName": "&lt;Technical contact name&gt;",
-    "emailAddress": "&lt;Technical contact email&gt;"
+    "givenName": "<Technical contact name>",
+    "emailAddress": "<Technical contact email>"
 }
 SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT
 SOCIAL_AUTH_SAML_ENABLED_IDPS = {
@@ -65,7 +65,7 @@ SOCIAL_AUTH_SAML_ENABLED_IDPS = {
         "attr_user_permanent_id": "urn:oid:1.3.6.1.4.1.5923.1.1.1.6", #EPPN
         "attr_username": "urn:oid:2.16.840.1.113730.3.1.241", #NAME
         "attr_email": "urn:oid:0.9.2342.19200300.100.1.3", #EMAIL
-        "x509cert": "&lt;ds:X509Certificate value without linebreaks from Touchstone idp metadata&gt;",
+        "x509cert": "<ds:X509Certificate value without linebreaks from Touchstone idp metadata>",
     }
 }
 
