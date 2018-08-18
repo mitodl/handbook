@@ -17,7 +17,7 @@ FEATURES['CUSTOM_COURSES_EDX'] = True
 
 ##### Custom Courses for EdX #####
 if FEATURES.get('CUSTOM_COURSES_EDX'):
-        INSTALLED_APPS += ('ccx',)
+        INSTALLED_APPS += ('lms.djangoapps.ccx', 'openedx.core.djangoapps.ccxcon')
         FIELD_OVERRIDE_PROVIDERS += (
             'ccx.overrides.CustomCoursesForEdxOverrideProvider',
         )
