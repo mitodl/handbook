@@ -2,8 +2,9 @@
 
 **SECTIONS**
 1. [Initial Setup](#initial-setup)
-2. [Running and Accessing the App](#running-and-accessing-the-app)
-3. [Troubleshooting](#troubleshooting)
+1. [Running and Accessing the App](#running-and-accessing-the-app)
+1. [Testing and Formatting](#testing-and-formatting)
+1. [Troubleshooting](#troubleshooting)
 
 
 # Initial Setup
@@ -19,9 +20,9 @@ _&#42; For OSX development, we previously used docker-machine, which is used to 
 inside of a VM. Since that time, Docker for Mac has improved to the point that Docker can be run from
 the host machine._
 
-All commands in this guide should be run from the root directory of your project's repository (unless specified otherwise).
-
 ### Build And Configure Docker Containers
+
+All commands in this guide should be run from the root directory of your project's repository (unless specified otherwise).
 
 #### 1) Create your ``.env`` file
 
@@ -90,9 +91,9 @@ Your app should now be accessible via browser:
   More info on that in the section above.
 
 
-# Testing
+# Testing and Formatting
 
-There are a few different commands for running tests/linters. 
+There are a few different commands for running tests/linters and formatting code. 
 
 *NOTE: The `--rm` option for the `docker-compose run` command tells Docker to destroy the container after it finishes running. This is useful for running specific commands in one-off containers. This prevents the accumulation of unused Docker containers on your machine.*
 
