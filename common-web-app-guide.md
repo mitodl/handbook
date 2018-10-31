@@ -21,7 +21,7 @@ the host machine._
 
 All commands in this guide should be run from the root directory of your project's repository (unless specified otherwise).
 
-### Docker Container Setup
+### Build And Configure Docker Containers
 
 #### 1) Create your ``.env`` file
 
@@ -43,13 +43,31 @@ project's README file.
 
 *NOTE: You will also need to run this command whenever there are new migrations (i.e.: database models have been changed/added/removed).*
 
-#### (Optional) Create a superuser
+#### _(Optional)_ Create a superuser
 Some of our apps include user creation as part of their specific setup steps. If the given app does not
 include steps to create a user, you can create one easily via Django's `createsuperuser` command.
 It will prompt you for the username and some other details for this user.
 
     docker-compose run web ./manage.py createsuperuser
 
+### Add `/etc/hosts` alias for the site
+
+There are two scenarios where this will be needed:
+
+1. Multiple locally-running apps need to share a cookie (e.g.: MicroMasters and Open Discussions).
+1. You are an OSX user. Due to networking differences between Docker for Mac and standard Docker, locally running apps can only communicate 
+with each other in OSX if `/etc/hosts` aliases are created for each app. 
+
+Our established pattern is to use `odl.local` as the domain. The `/etc/hosts` entry for a locally-running site will look like this:
+
+```
+127.0.0.1       <site_abbreviation>.odl.local
+
+# Example: for Micromasters...
+127.0.0.1       mm.odl.local
+# Example: for open-discussions...
+127.0.0.1       od.odl.local
+```
 
 # Running and Accessing the App
 
@@ -67,29 +85,10 @@ Your app should now be accessible via browser:
     - One-line command to figure out that port number: `docker-compose ps nginx | perl -nle '/[0-9\.]*:(\d+)/ && print "$1";'`
     - This port number is specified for the `nginx` service in `docker-compose.yml`
 1. _[Linux only]:_ Navigate to `localhost:PORT` (e.g.: `localhost:8079`)
-1. _[OSX only]:_ Like Linux users, you _can_ navigate to `localhost:PORT` (e.g.: `localhost:8079`) to use the 
+1. _[OSX only]:_ Navigate to `ETC_HOSTS_ALIAS:PORT` (e.g.: `mm.odl.local:8079`). Like Linux users, you _can_ navigate to `localhost:PORT` (e.g.: `localhost:8079`) to use the 
   locally-running site, but it's recommended/essential that you add an `/etc/hosts` alias and use that URL instead. 
-  More info on that in the section below.
-  
-#### 3) _[OSX only]_ Add `/etc/hosts` alias for the site
+  More info on that in the section above.
 
-You'll often need to run more than one of our web applications locally at the same time. Due to networking differences
-between Docker for Mac and standard Docker, locally running apps can only communicate with each other in OSX if 
-`/etc/hosts` aliases are created for each app. Our established pattern is to use `odl.local` as the domain. 
-The `/etc/hosts` entry for a locally-running site will look like this:
-
-```
-127.0.0.1       <site_abbreviation>.odl.local
-
-# Example: for Micromasters...
-127.0.0.1       mm.odl.local
-# Example: for open-discussions...
-127.0.0.1       od.odl.local
-```
-
-Given the example above, instead of visiting `localhost:8079` or `127.0.0.1:8079` to visit Micromasters, you would 
-visit `mm.odl.local:8079`. Any other apps that needed a reference to a Micromasters URL (e.g.: for a redirect), you
-would also use that aliased URL. 
 
 # Testing
 
@@ -129,11 +128,13 @@ docker-compose run watch npm run-script flow
 docker-compose run watch npm run fmt
 ```
 
+
 # Running Commands
 
 You can run a Django shell with the following command:
 
     docker-compose run web ./manage.py shell
+
 
 # Troubleshooting
 
