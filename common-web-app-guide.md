@@ -92,7 +92,9 @@ Your app should now be accessible via browser:
 
 # Testing
 
-There are a few different commands for running tests/linters:
+There are a few different commands for running tests/linters. 
+
+*NOTE: The `--rm` option for the `docker-compose run` command tells Docker to destroy the container after it finishes running. This is useful for running specific commands in one-off containers. This prevents the accumulation of unused Docker containers on your machine.*
 
 ```bash
 # In most of our projects we include a shell script that runs 
@@ -101,31 +103,40 @@ There are a few different commands for running tests/linters:
 
 ### PYTHON TESTS/LINTING
 # Run Python tests
-docker-compose run web tox
+docker-compose run --rm web tox
 # Run Python tests in a single file
-docker-compose run web tox /path/to/test.py
+docker-compose run --rm web tox /path/to/test.py
 # Run Python test cases in a single file that match some function/class name
-docker-compose run web tox /path/to/test.py -- -k test_some_logic
+docker-compose run --rm web tox /path/to/test.py -- -k test_some_logic
 # Run Python linter
-docker-compose run web pylint
+docker-compose run --rm web pylint
 
 ### JS/CSS TESTS/LINTING
 # We also include a helper script to execute JS tests in most of our projects 
 # (this file may exist at the project root or in ./scripts/test)
-docker-compose run watch ./js_test.sh
+docker-compose run --rm watch ./js_test.sh
 # Run JS tests in specific file
-docker-compose run watch ./js_test.sh path/to/file.js
+docker-compose run --rm watch ./js_test.sh path/to/file.js
 # Run JS tests in specific file with a description that matches some text
-docker-compose run watch ./js_test.sh path/to/file.js "should test basic arithmetic"
+docker-compose run --rm watch ./js_test.sh path/to/file.js "should test basic arithmetic"
 # Run the JS linter
-docker-compose run watch npm run lint
+docker-compose run --rm watch npm run lint
 # Run SCSS linter
-docker-compose run watch npm run scss_lint
+docker-compose run --rm watch npm run scss_lint
 # Run the Flow type checker
-docker-compose run watch npm run-script flow
+docker-compose run --rm watch npm run-script flow
 
 # Run prettier-eslint, fixes style issues that may be causing the build to fail
-docker-compose run watch npm run fmt
+docker-compose run --rm watch npm run fmt
+```
+
+There are many scenarios where you'll want to run tests many times in a row (authoring new tests, fixing old tests and checking if they pass). In that case it will save time to run a bash shell in a new container and run these commands as needed in that container.
+
+```bash
+# On host machine...
+docker-compose run --rm web bash
+# On the bash prompt inside the new container
+tox /path/to/test.py
 ```
 
 
