@@ -62,8 +62,8 @@ Pull Request" button in your repo's "Pull Requests" tab
 ([example](https://github.com/mitodl/micromasters/pulls)). Your **base** branch should be
 **master** and your **compare** branch should be your issue branch.
 
-When you first open the PR, the input should be pre-populated with our
-[PR template](https://github.com/mitodl/handbook/blob/master/pr-template.md). Fill in every section
+When you first open the PR, the input should be pre-populated with a
+PR template. Each project has its own template, but it should look roughly like [this](https://github.com/mitodl/handbook/blob/master/pr-template.md). Fill in every section
 that is relevant to your PR, and delete the sections that aren't relevant. Under the **"relevant
 tickets"** section, be sure to indicate the issue that you're fixing. GitHub will automatically
 link to your issue if you type '#' followed by your issue number (and it will help you with an
