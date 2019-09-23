@@ -139,13 +139,13 @@ and (2) soft reset. The aforementioned edX rebasing guide contains information a
 This is the recommended method, but you can also try accomplishing this with a soft reset:
 
     git fetch
-    git merge-base CURRENT_BRANCH master
+    git merge-base YOUR_BRANCH master
     # 'merge-base' will give you a commit hash. Copy that value for this next command
     git reset --soft COMMIT_HASH
     git commit -am "YOUR_COMMIT_MESSAGE"
     # The above will cause your branch to diverge, so you'll need force-push.
     # Make sure your git 'push.default' config is set to 'simple' before running this.
-    git push -f
+    git push origin YOUR_BRANCH -f
 
 When this is done, your git log should show one commit for all the changes in your branch followed by the
 'merge base' of your branch.
