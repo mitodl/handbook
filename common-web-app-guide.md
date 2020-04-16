@@ -97,12 +97,26 @@ There are a few different commands for running tests/linters and formatting code
 
 *NOTE: The `--rm` option for the `docker-compose run` command tells Docker to destroy the container after it finishes running. This is useful for running specific commands in one-off containers. This prevents the accumulation of unused Docker containers on your machine.*
 
-```bash
-# In most of our projects we include a shell script that runs 
-# the entire test suite.
-./test_suite.sh
+### Python tests/linting/formatting
 
-### PYTHON TESTS/LINTING
+We use `pytest` (with various plugins) to run our Python test suite in most of our projects. In some of legacy projects, we use `tox` to invoke `pytest`. You'll run `pytest` if there is no `tox` requirement in `test_requirements.txt` for your project.
+
+##### With `pytest`...
+```bash
+# Run Python tests with linting
+docker-compose run --rm web pytest
+# Run Python tests in a single file
+docker-compose run --rm web pytest /path/to/test.py
+# Run Python test cases in a single file that match some function/class name
+docker-compose run --rm web pytest /path/to/test.py -k test_some_logic
+# Run Python linter only
+docker-compose run --rm web pytest --pylint -m pylint
+# Run Python tests without linter, without coverage report, and without log capture
+docker-compose run --rm web pytest --no-cov --no-pylint --show-capture=no
+```
+
+##### With `tox`...
+```bash
 # Run Python tests
 docker-compose run --rm web tox
 # Run Python tests in a single file
@@ -111,34 +125,45 @@ docker-compose run --rm web tox /path/to/test.py
 docker-compose run --rm web tox /path/to/test.py -- -k test_some_logic
 # Run Python linter
 docker-compose run --rm web pylint
-
-### JS/CSS TESTS/LINTING
-# We also include a helper script to execute JS tests in most of our projects 
-# (this file may exist at the project root or in ./scripts/test)
-docker-compose run --rm watch ./js_test.sh
-# Run JS tests in specific file
-docker-compose run --rm watch ./js_test.sh path/to/file.js
-# Run JS tests in specific file with a description that matches some text
-docker-compose run --rm watch ./js_test.sh path/to/file.js "should test basic arithmetic"
-# Run the JS linter
-docker-compose run --rm watch npm run lint
-# Run SCSS linter
-docker-compose run --rm watch npm run scss_lint
-# Run the Flow type checker
-docker-compose run --rm watch npm run-script flow
-
-# Run prettier-eslint, fixes style issues that may be causing the build to fail
-docker-compose run --rm watch npm run fmt
 ```
 
+##### Speeding up test development
 There are many scenarios where you'll want to run tests many times in a row (authoring new tests, fixing old tests and checking if they pass). In that case it will save time to run a bash shell in a new container and run these commands as needed in that container.
 
 ```bash
 # On host machine...
 docker-compose run --rm web bash
 # On the bash prompt inside the new container
+# Without tox...
+pytest /path/to/test.py
+# With tox...
 tox /path/to/test.py
 ```
+
+### JS/CSS tests/linting/formatting
+
+```bash
+# We include a helper script to execute JS tests in most of our projects 
+# (this file may exist at the project root or in ./scripts/test)
+docker-compose run --rm watch ./scripts/test/js_test.sh
+# Run JS tests in specific file
+docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js
+# Run JS tests in specific file with a description that matches some text
+docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js "should test basic arithmetic"
+# Run the JS linter
+docker-compose run --rm watch npm run lint
+# Run SCSS linter
+docker-compose run --rm watch npm run scss_lint
+# Run the Flow type checker
+docker-compose run --rm watch npm run-script flow
+# Run prettier-eslint, which fixes style issues that may be causing the build to fail
+docker-compose run --rm watch npm run fmt
+```
+
+You can speed up JS test development in the same way described in the Python testing section above by starting the
+`watch` container instead of the `web` container.
+
+**NOTE:** In some of our projects we include a shell script that runs the entire test suite: `./test_suite.sh`
 
 
 # Running Commands
