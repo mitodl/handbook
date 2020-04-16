@@ -127,6 +127,12 @@ docker-compose run --rm web tox /path/to/test.py -- -k test_some_logic
 docker-compose run --rm web pylint
 ```
 
+##### Formatting
+Most of our projects use the `black` formatter to enforce certain formatting rules. This should be run before any commit that makes changes to Python code (ignore this if your project does not list `black` in the `test_requirements.txt`).
+```bash
+docker-compose run --rm web black .
+```
+
 ##### Speeding up test development
 There are many scenarios where you'll want to run tests many times in a row (authoring new tests, fixing old tests and checking if they pass). In that case it will save time to run a bash shell in a new container and run these commands as needed in that container.
 
