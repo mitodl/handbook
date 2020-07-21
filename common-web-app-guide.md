@@ -4,6 +4,7 @@
 1. [Initial Setup](#initial-setup)
 1. [Running and Accessing the App](#running-and-accessing-the-app)
 1. [Testing and Formatting](#testing-and-formatting)
+1. [Administering your Local App](#administering-your-local-app)
 1. [Troubleshooting](#troubleshooting)
 
 
@@ -166,17 +167,61 @@ docker-compose run --rm watch npm run-script flow
 docker-compose run --rm watch npm run fmt
 ```
 
+**NOTE:** In some of our projects we include a shell script that runs the entire test suite: `./test_suite.sh`
+
+##### Speeding up test development
 You can speed up JS test development in the same way described in the Python testing section above by starting the
 `watch` container instead of the `web` container.
 
-**NOTE:** In some of our projects we include a shell script that runs the entire test suite: `./test_suite.sh`
 
+# Administering your Local App
 
-# Running Commands
+#### Running a Django shell
 
-You can run a Django shell with the following command:
+    docker-compose run --rm web ./manage.py shell
 
-    docker-compose run web ./manage.py shell
+#### Running the app in a notebook
+
+Some of our repos include a config for running a [Jupyter notebook](https://jupyter.org/) in a
+Docker container. This enables you to do in a Jupyter notebook anything you might otherwise do 
+in a Django shell, with the added benefit of saving code that you frequently run, and running entire
+blocks of code at once. **If the repo includes a `.ipynb.example` file, that means the app is configured
+to run in a Notebook.** To get started:
+
+- Copy the example file
+    ```bash
+    # Choose any name for the resulting .ipynb file
+    cp localdev/app.ipynb.example localdev/app.ipynb
+    ```
+- Build the `notebook` container _(for first time use, or when requirements change)_
+    ```bash
+    docker-compose -f docker-compose-notebook.yml build
+    ```
+- Run all the standard containers (`docker-compose up`)
+- In another terminal window, run the `notebook` container
+    ```bash
+    docker-compose -f docker-compose-notebook.yml run --rm --service-ports notebook
+    ```
+- Visit the running notebook server in your browser. The `notebook` container log output will
+  indicate the URL and `token` param with some output that looks like this:
+    ```
+    notebook_1  |     To access the notebook, open this file in a browser:
+    notebook_1  |         file:///home/mitodl/.local/share/jupyter/runtime/nbserver-8-open.html
+    notebook_1  |     Or copy and paste one of these URLs:
+    notebook_1  |         http://(2c19429d04d0 or 127.0.0.1):8080/?token=2566e5cbcd723e47bdb1b058398d6bb9fbf7a31397e752ea
+    ```
+  Here is a one-line command that will produce a browser-ready URL from that output. Run this in a separate terminal:
+    ```bash
+    # Replace "myapp.odl.local" with the etc/hosts alias for your app (e.g.: "xpro.odl.local")
+    APP_HOST="myapp.odl.local"; docker logs $(docker ps --format '{{.Names}}' | grep "_notebook_run_") | grep -E "http://(.*):8080[^ ]+\w" | tail -1 | sed -e 's/^[[:space:]]*//' | sed -e "s/(.*)/$APP_HOST/"
+    ```
+  OSX users can pipe that output to `xargs open` to open a browser window directly with the URL from that command.
+- Navigate to the `.ipynb` file that you created and click it to run the notebook
+- Execute the first block to confirm it's working properly (click inside the block
+  and press Shift+Enter)
+
+From there, you should be able to run code snippets with a live Django app just like you
+would in a Django shell.
 
 
 # Troubleshooting
