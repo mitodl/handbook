@@ -114,6 +114,8 @@ docker-compose run --rm web pytest /path/to/test.py -k test_some_logic
 docker-compose run --rm web pytest --pylint -m pylint
 # Run Python tests without linter, without coverage report, and without log capture
 docker-compose run --rm web pytest --no-cov --no-pylint --show-capture=no
+# Some of our projects allow you to pass in a single flag to run tests only (no linter, cov report, or log capture)
+docker-compose run --rm web pytest --simple
 ```
 
 ##### With `tox`...
