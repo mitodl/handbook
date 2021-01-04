@@ -1,10 +1,10 @@
-# ODL edX Devstack Development Guide
+# edX Devstack Development Guide
 
 ### Purpose
 
 At MIT ODL, we often work on edX platform features and bugfixes. There are [multiple named releases of Open edX](https://openedx.atlassian.net/wiki/spaces/DOC/pages/11108700/Open+edX+Releases) and a couple different methods of running the platform on your own machine. This guide aims to be the source of truth for ODL developers in terms of choosing the correct repo/branch for development, running devstack, and troubleshooting an installation.
 
-### Current State of Things 
+### Current State of Things
 
 *(updated 04/02/2018)*
 
@@ -12,7 +12,7 @@ This is the state of `edx-platform` development at MIT ODL. If this doesn't make
 
 - MIT ODL main development branch: **`mitx/master`**
 - Accepted method for running devstack on that branch: **Docker**
-- Unless an issue explicitly says otherwise, you should always do `edx-platform` work in the MIT ODL fork, in a branch off of the main development branch specified above, and any PRs should be opened against that branch. 
+- Unless an issue explicitly says otherwise, you should always do `edx-platform` work in the MIT ODL fork, in a branch off of the main development branch specified above, and any PRs should be opened against that branch.
 
 ### Running devstack
 
