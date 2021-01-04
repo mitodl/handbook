@@ -1,0 +1,13 @@
+title: OL Engineering Handbook
+description: Handbook for Open Learning Engineering
+
+show_downloads: false
+google_analytics:
+
+remote_theme: pmarsceill/just-the-docs
+markdown: kramdown
+plugins:
+  - jekyll-feed
+
+liquid:
+  error_mode: lax

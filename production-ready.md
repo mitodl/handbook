@@ -1,4 +1,4 @@
-# Production ready
+# Production Ready
 
 This document defines our standard for production ready applications and
 changes from an *operations* standpoint. The point at which the *product* is

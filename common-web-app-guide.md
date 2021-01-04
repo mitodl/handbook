@@ -1,4 +1,4 @@
-# ODL Docker/Django/Webpack Web App Guide
+# Docker/Django/Webpack Web App Guide
 
 **SECTIONS**
 1. [Initial Setup](#initial-setup)
@@ -17,7 +17,7 @@
 - docker-compose
   - Recommended install: pip (`pip install docker-compose`)
 
-_&#42; For OSX development, we previously used docker-machine, which is used to run Docker containers 
+_&#42; For OSX development, we previously used docker-machine, which is used to run Docker containers
 inside of a VM. Since that time, Docker for Mac has improved to the point that Docker can be run from
 the host machine._
 
@@ -28,10 +28,10 @@ All commands in this guide should be run from the root directory of your project
 #### 1) Create your ``.env`` file
 
     cp .env.example .env
-    
+
 The `.env.example` file contains settings variables for which you will need to provide values in order to run the
 app. Sometimes default values are given. To get a better idea about what values are needed, refer to the specific
-project's README file. 
+project's README file.
 
 #### 2) Build the containers
 
@@ -57,8 +57,8 @@ It will prompt you for the username and some other details for this user.
 There are two scenarios where this will be needed:
 
 1. Multiple locally-running apps need to share a cookie (e.g.: MicroMasters and Open Discussions).
-1. You are an OSX user. Due to networking differences between Docker for Mac and standard Docker, locally running apps can only communicate 
-with each other in OSX if `/etc/hosts` aliases are created for each app. 
+1. You are an OSX user. Due to networking differences between Docker for Mac and standard Docker, locally running apps can only communicate
+with each other in OSX if `/etc/hosts` aliases are created for each app.
 
 Our established pattern is to use `odl.local` as the domain. The `/etc/hosts` entry for a locally-running site will look like this:
 
@@ -78,7 +78,7 @@ Our established pattern is to use `odl.local` as the domain. The `/etc/hosts` en
 Start all the services that are required to run the app:
 
     docker-compose up
-    
+
 #### 2) Navigate to the running app in your browser
 
 Your app should now be accessible via browser:
@@ -87,14 +87,14 @@ Your app should now be accessible via browser:
     - One-line command to figure out that port number: `docker-compose ps nginx | perl -nle '/[0-9\.]*:(\d+)/ && print "$1";'`
     - This port number is specified for the `nginx` service in `docker-compose.yml`
 1. _[Linux only]:_ Navigate to `localhost:PORT` (e.g.: `localhost:8079`)
-1. _[OSX only]:_ Navigate to `ETC_HOSTS_ALIAS:PORT` (e.g.: `mm.odl.local:8079`). Like Linux users, you _can_ navigate to `localhost:PORT` (e.g.: `localhost:8079`) to use the 
-  locally-running site, but it's recommended/essential that you add an `/etc/hosts` alias and use that URL instead. 
+1. _[OSX only]:_ Navigate to `ETC_HOSTS_ALIAS:PORT` (e.g.: `mm.odl.local:8079`). Like Linux users, you _can_ navigate to `localhost:PORT` (e.g.: `localhost:8079`) to use the
+  locally-running site, but it's recommended/essential that you add an `/etc/hosts` alias and use that URL instead.
   More info on that in the section above.
 
 
 # Testing and Formatting
 
-There are a few different commands for running tests/linters and formatting code. 
+There are a few different commands for running tests/linters and formatting code.
 
 *NOTE: The `--rm` option for the `docker-compose run` command tells Docker to destroy the container after it finishes running. This is useful for running specific commands in one-off containers. This prevents the accumulation of unused Docker containers on your machine.*
 
@@ -152,7 +152,7 @@ tox /path/to/test.py
 ### JS/CSS tests/linting/formatting
 
 ```bash
-# We include a helper script to execute JS tests in most of our projects 
+# We include a helper script to execute JS tests in most of our projects
 # (this file may exist at the project root or in ./scripts/test)
 docker-compose run --rm watch ./scripts/test/js_test.sh
 # Run JS tests in specific file
@@ -185,7 +185,7 @@ You can speed up JS test development in the same way described in the Python tes
 #### Running the app in a notebook
 
 Some of our repos include a config for running a [Jupyter notebook](https://jupyter.org/) in a
-Docker container. This enables you to do in a Jupyter notebook anything you might otherwise do 
+Docker container. This enables you to do in a Jupyter notebook anything you might otherwise do
 in a Django shell, with the added benefit of saving code that you frequently run, and running entire
 blocks of code at once. **If the repo includes a `.ipynb.example` file, that means the app is configured
 to run in a Notebook.** To get started:
