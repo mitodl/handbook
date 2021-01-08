@@ -1,5 +1,6 @@
 ---
 nav_order: 0
+permalink: /
 ---
 # Handbook
 
