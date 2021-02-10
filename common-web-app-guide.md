@@ -110,12 +110,16 @@ docker-compose run --rm web pytest
 docker-compose run --rm web pytest /path/to/test.py
 # Run Python test cases in a single file that match some function/class name
 docker-compose run --rm web pytest /path/to/test.py -k test_some_logic
-# Run Python linter only
-docker-compose run --rm web pytest --pylint -m pylint
 # Run Python tests without linter, without coverage report, and without log capture
 docker-compose run --rm web pytest --no-cov --no-pylint --show-capture=no
 # Some of our projects allow you to pass in a single flag to run tests only (no linter, cov report, or log capture)
 docker-compose run --rm web pytest --simple
+
+### Linting
+# If the pytest-pylint is NOT installed, run pylint directly
+docker-compose run --rm web pylint
+# If the pytest-pylint IS installed, run the pylint via pytest
+docker-compose run --rm web pytest --pylint -m pylint
 ```
 
 ##### With `tox`...
@@ -133,7 +137,10 @@ docker-compose run --rm web pylint
 ##### Formatting
 Most of our projects use the `black` formatter to enforce certain formatting rules. This should be run before any commit that makes changes to Python code (ignore this if your project does not list `black` in the `test_requirements.txt`).
 ```bash
+# Format all Python files in the repo
 docker-compose run --rm web black .
+# Format a specific file
+docker-compose run --rm web black /path/to/file.py
 ```
 
 ##### Speeding up test development
