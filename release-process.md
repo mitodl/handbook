@@ -8,17 +8,17 @@ repository. This document describes the steps required.
 
 In addition to creating a code snapshot for production, the release process
 triggers code deployments.  There is already tooling that deploys commits to
-``master`` to the ``<projectname>-ci`` server. The release process triggers
+``master/main`` to the ``<projectname>-ci`` server. The release process triggers
 deployments to ``<projectname>-rc`` for acceptance testing.  When
 ``release-candidate`` is merged to ``release``, the application is deployed
 to the production server.
 
 ## Steps
-### 1. Check-out a current ``master`` branch
-Verify that ``master`` contains the commits intended for the release.  If
+### 1. Check-out a current ``master/main`` branch
+Verify that ``master/main`` contains the commits intended for the release.  If
 there isn't already an issue in GitHub for the release, create one.
-### 2. Create a ``release-candidate`` branch and hard reset it to ``master``
-The ``release-candidate`` branch is hard reset to ``master`` since for the
+### 2. Create a ``release-candidate`` branch and hard reset it to ``master/main``
+The ``release-candidate`` branch is hard reset to ``master/main`` since for the
 purposes of the release process, its state on the remote is irrelevant.
 ### 4. Generate release notes
 All of our projects contain a file for release notes in the project
@@ -33,7 +33,7 @@ Project version numbers are typically stored in ``settings.py`` and/or
 ### 8. Open PR to merge ``release-candidate`` branch into ``release`` branch
 ### 9. Merge PR once developers verify their commits (manual step)
 ### 10. Tag the release
-### 11. Merge the ``release`` branch into the ``master`` branch and push
+### 11. Merge the ``release`` branch into the ``master/main`` branch and push
 ### 12. Send email notifications (manual step)
 
 

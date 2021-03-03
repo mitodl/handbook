@@ -33,7 +33,7 @@ Example: `git clone http://github.com/mitodl/micromasters.git`
 
 #### &#10146; Create a Branch for the given issue
 
-Assuming you're working on issue **#123** in GitHub, you create a new branch from master like so:
+Assuming you're working on issue **#123** in GitHub, you create a new branch from master/main like so:
 
     git checkout -b NEW-BRANCH_NAME origin/master
 
@@ -60,7 +60,7 @@ about why we do code reviews and how to approach them, both as a reviewer and re
 This can be kicked off from several places in GitHub. The easiest one to remember is the "New
 Pull Request" button in your repo's "Pull Requests" tab
 ([example](https://github.com/mitodl/micromasters/pulls)). Your **base** branch should be
-**master** and your **compare** branch should be your issue branch.
+**master/main** and your **compare** branch should be your issue branch.
 
 When you first open the PR, the input should be pre-populated with a
 PR template. Each project has its own template, but it should look roughly like [this](https://github.com/mitodl/handbook/blob/master/pr-template.md). Fill in every section
@@ -106,11 +106,11 @@ some advice on avoiding this kind of unresolvable disagreement.
 - Make changes/respond to comments as needed and reset the PR label to "Needs Review"
 - PR is considered "approved" when you get a +1 (thumbs up) from the assigned reviewer
 
-#### &#10146; (As necessary) Rebase onto master and resolve conflicts when they occur
+#### &#10146; (As necessary) Rebase onto master/main and resolve conflicts when they occur
 
-As you work on your PR, changes may be made to master that cause would-be merge conflicts. The
+As you work on your PR, changes may be made to master/main that cause would-be merge conflicts. The
 merge-ability of your branch will be indicated near the bottom of your PR page. If conflicts are detected,
-you should rebase your branch onto master, fix the conflicts, and push your branch. Here is a [rebasing
+you should rebase your branch onto master/main, fix the conflicts, and push your branch. Here is a [rebasing
 guide maintained by edX](https://github.com/edx/edx-platform/wiki/How-to-Rebase-a-Pull-Request). The
 process looks something like this in the command line:
 
@@ -128,7 +128,7 @@ conflicts with the base branch" when you have successfully resolved and pushed.
 
 #### &#10146; "Squash" the commits on your branch
 
-You may have many incremental commits on your issue branch. In order to keep the git log for the master
+You may have many incremental commits on your issue branch. In order to keep the git log for the master/main
 branch clean and readable, we "squash" all issue branch commits into one commit before merging. The commit
 message should be a past tense description of your entire PR, eg: "Updated the home page to match new design". Using
 the past tense makes it easier to write coherent release notes.
@@ -150,10 +150,10 @@ This is the recommended method, but you can also try accomplishing this with a s
 When this is done, your git log should show one commit for all the changes in your branch followed by the
 'merge base' of your branch.
 
-#### &#10146; Merge your PR into master via GitHub
+#### &#10146; Merge your PR into master/main via GitHub
 
 We merge PR's by button-click in GitHub for a few reasons. One of them to avoid possible human error in
-pushing to master in the command line. Near the bottom of your PR page, you should see a "Merge pull request"
+pushing to master/main in the command line. Near the bottom of your PR page, you should see a "Merge pull request"
 button. Click that.
 
 #### &#10146; Delete your branch and move your issue
