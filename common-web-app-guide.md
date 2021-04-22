@@ -98,11 +98,11 @@ There are a few different commands for running tests/linters and formatting code
 
 *NOTE: The `--rm` option for the `docker-compose run` command tells Docker to destroy the container after it finishes running. This is useful for running specific commands in one-off containers. This prevents the accumulation of unused Docker containers on your machine.*
 
-### Python tests/linting/formatting
+### Python tests, linting, and formatting
 
 We use `pytest` (with various plugins) to run our Python test suite in most of our projects. In some of legacy projects, we use `tox` to invoke `pytest`. You'll run `pytest` if there is no `tox` requirement in `test_requirements.txt` for your project.
 
-##### With `pytest`...
+#### With `pytest`...
 ```bash
 # Run Python tests with linting
 docker-compose run --rm web pytest
@@ -116,13 +116,13 @@ docker-compose run --rm web pytest --no-cov --no-pylint --show-capture=no
 docker-compose run --rm web pytest --simple
 
 ### Linting
-# If the pytest-pylint is NOT installed, run pylint directly
-docker-compose run --rm web pylint
+# If the pytest-pylint is NOT installed (check test_requirements.txt), run pylint directly
+docker-compose run --rm web bash -c "pylint ./**/*.py"
 # If the pytest-pylint IS installed, run the pylint via pytest
 docker-compose run --rm web pytest --pylint -m pylint
 ```
 
-##### With `tox`...
+#### With `tox`...
 ```bash
 # Run Python tests
 docker-compose run --rm web tox
@@ -134,7 +134,7 @@ docker-compose run --rm web tox /path/to/test.py -- -k test_some_logic
 docker-compose run --rm web pylint
 ```
 
-##### Formatting
+#### Formatting
 Most of our projects use the `black` formatter to enforce certain formatting rules. This should be run before any commit that makes changes to Python code (ignore this if your project does not list `black` in the `test_requirements.txt`).
 ```bash
 # Format all Python files in the repo
@@ -143,7 +143,7 @@ docker-compose run --rm web black .
 docker-compose run --rm web black /path/to/file.py
 ```
 
-##### Speeding up test development
+#### Speeding up test development
 There are many scenarios where you'll want to run tests many times in a row (authoring new tests, fixing old tests and checking if they pass). In that case it will save time to run a bash shell in a new container and run these commands as needed in that container.
 
 ```bash
@@ -156,29 +156,62 @@ pytest /path/to/test.py
 tox /path/to/test.py
 ```
 
-### JS/CSS tests/linting/formatting
+### JS/CSS tests, linting, formatting, and type checking
+
+#### Running tests via helper script
+
+Most of our projects include a helper script to run JS tests. 
+
+If your project includes `/scripts/test/js_test.sh` or `/js_test.sh`, this is how you can run the JS test suite:
 
 ```bash
-# We include a helper script to execute JS tests in most of our projects
-# (this file may exist at the project root or in ./scripts/test)
 docker-compose run --rm watch ./scripts/test/js_test.sh
 # Run JS tests in specific file
 docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js
 # Run JS tests in specific file with a description that matches some text
 docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js "should test basic arithmetic"
+```
+
+#### Running tests via npm
+
+In 2021 we changed our JS testing practice to use npm directly to run the JS test suite, and to use [jest](https://jestjs.io/docs/getting-started) 
+as our testing framework.
+
+If your project DOES NOT include a `js_test.sh` file, this is how you can run the JS test suite:
+
+```bash
+docker-compose run --rm watch npm run test
+# Run JS tests in specific file
+docker-compose run --rm watch npm run test path/to/file.test.js
+# Run JS tests in specific file with a description that matches some text
+docker-compose run --rm watch npm run test path/to/file.test.js -- -t "should test basic arithmetic"
+```
+
+#### Linting and formatting
+
+```bash
 # Run the JS linter
 docker-compose run --rm watch npm run lint
 # Run SCSS linter
 docker-compose run --rm watch npm run scss_lint
-# Run the Flow type checker
-docker-compose run --rm watch npm run-script flow
 # Run prettier-eslint, which fixes style issues that may be causing the build to fail
 docker-compose run --rm watch npm run fmt
 ```
 
+#### Type checking
+
+**If your project uses Typescript, ignore this section.** Most of our legacy projects use [Flow](https://flow.org/en/docs/) 
+type-checking. We switched to Typescript for new projects in 2021. Type-checking only needs to be invoked directly in our projects
+that use Flow.
+
+```bash
+# Run the Flow type checker to check for typing errors
+docker-compose run --rm watch npm run-script flow
+```
+
 **NOTE:** In some of our projects we include a shell script that runs the entire test suite: `./test_suite.sh`
 
-##### Speeding up test development
+#### Speeding up test development
 You can speed up JS test development in the same way described in the Python testing section above by starting the
 `watch` container instead of the `web` container.
 
