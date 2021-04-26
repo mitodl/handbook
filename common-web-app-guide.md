@@ -143,6 +143,16 @@ docker-compose run --rm web black .
 docker-compose run --rm web black /path/to/file.py
 ```
 
+#### Import sorting
+Some of our projects include [`isort`](https://pypi.org/project/isort/) to automatically sort Python imports. If your project uses `isort` and requires sorted imports as a part of the build, that package will be included in `test_requirements.txt`
+
+```
+# Sort all imports 
+docker-compose run --rm web bash -c "isort ."
+# Check to see if imports are sorted
+docker-compose run --rm web bash -c "isort -c ."
+```
+
 #### Speeding up test development
 There are many scenarios where you'll want to run tests many times in a row (authoring new tests, fixing old tests and checking if they pass). In that case it will save time to run a bash shell in a new container and run these commands as needed in that container.
 
