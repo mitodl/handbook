@@ -166,7 +166,7 @@ pytest /path/to/test.py
 tox /path/to/test.py
 ```
 
-### JS/CSS tests, linting, formatting, and type checking
+### JS/CSS tests, linting, formatting, and type-checking
 
 #### Running tests via helper script
 
@@ -182,6 +182,8 @@ docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js
 docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js "should test basic arithmetic"
 ```
 
+**NOTE:** In some of our projects we include a shell script that runs the entire test suite including linting, etc.: `./test_suite.sh`
+
 #### Running tests via npm
 
 In 2021 we changed our JS testing practice to use npm directly to run the JS test suite, and to use [jest](https://jestjs.io/docs/getting-started) 
@@ -195,6 +197,11 @@ docker-compose run --rm watch npm run test
 docker-compose run --rm watch npm run test path/to/file.test.js
 # Run JS tests in specific file with a description that matches some text
 docker-compose run --rm watch npm run test path/to/file.test.js -- -t "should test basic arithmetic"
+
+# Run jest in watch mode (`jest --watch`) to continuously catch test failures
+docker-compose run --rm watch npm run test:watch
+# Generate a coverage report
+docker-compose run --rm watch npm run test:coverage
 ```
 
 #### Linting and formatting
@@ -208,18 +215,33 @@ docker-compose run --rm watch npm run scss_lint
 docker-compose run --rm watch npm run fmt
 ```
 
-#### Type checking
+#### Type-checking
 
-**If your project uses Typescript, ignore this section.** Most of our legacy projects use [Flow](https://flow.org/en/docs/) 
-type-checking. We switched to Typescript for new projects in 2021. Type-checking only needs to be invoked directly in our projects
-that use Flow.
+Most of our legacy projects use [Flow](https://flow.org/en/docs/) 
+type-checking. We switched to Typescript for new projects in 2021. Type-checking only needs to be invoked directly 
+in our projects that use Flow. If your project has files with the extension `.ts`/`.tsx`, your project is 
+Typescript-enabled.
+
+**Typescript** 
+
+As stated above, type-checking is done automatically with Typescript-enabled projects, so it's not necessary to run
+any commands, but you can still type-check with a command if you prefer:
+
+```bash
+docker-compose run --rm watch npm run typecheck
+```
+
+This runs `tsc --noEmit`, which basically type-checks the program and outputs
+any error but does not run a full compilation. We have incremental compilation
+turned on, so this should be relatively fast. It uses a file called
+`.tsbuildinfo` for incremental compilation.
+
+**Flow**
 
 ```bash
 # Run the Flow type checker to check for typing errors
 docker-compose run --rm watch npm run-script flow
 ```
-
-**NOTE:** In some of our projects we include a shell script that runs the entire test suite: `./test_suite.sh`
 
 #### Speeding up test development
 You can speed up JS test development in the same way described in the Python testing section above by starting the
