@@ -1,11 +1,11 @@
 # How We Work
-We hire smart and talented people and support them in doing their best work. In order to
-ensure that we maintain a common understanding of what is involved in our work and a
-high quality of our output, it is useful to have a clear definition of what the
-lifecycle of our work process looks like.
+We hire smart and talented people and support them in doing their best work. The core
+component of how we think about "getting work done" is that we trust everyone to take
+ownership of the tasks/features/projects that they are involved in.
 
-The core component of how we think about "getting work done" is that we trust everyone
-to take ownership of the tasks/features/projects that they are involved in.
+In order to ensure that we maintain a common understanding of what is involved in our
+work and a high quality of our output, it is useful to highlight the stages of our work
+and the value that each step provides.
 
 ## Project Shaping
 The first step of any project is to understand the scope and goals of the work to be
@@ -18,9 +18,12 @@ Every piece of functionality for our products has an impact on the architecture 
 platforms, and the design/experience of our end users. To that end, it is important that
 we have a common understanding of how we are going to build a piece of functionality and
 why we have chosen that approach. For large projects (with “large” being a subjective
-term) we write Request For Comments (RFC) documents that capture our thinking on these
-questions. These RFC documents are then shared widely throughout the team to ensure that
-everyone has the opportunity to provide input and learn about the work being done.
+term) we write [Request For Comments
+(RFC)](https://blog.pragmaticengineer.com/scaling-engineering-teams-via-writing-things-down-rfcs/)
+documents that capture our thinking on these questions. These [RFC
+documents](https://github.com/mitodl/hq/discussions/categories/rfc) are then shared
+widely throughout the team to ensure that everyone has the opportunity to provide input
+and learn about the work being done.
 
 ## Design
 For visual aspects of our work the RFC may be replaced with a graphic design, a set of
@@ -30,9 +33,13 @@ the final design.
 
 ## Planning
 At the tactical level, it is necessary to understand the steps required to complete a
-project and the dependencies across those steps. This can take the form of one issue in
-GitHub, or several. If the scope is too large for one or a set of issues, then perhaps
-it makes sense to use another tool such as Google Docs.
+project and the dependencies across those steps. Timely, clear, and effective
+communication is the most important tool in this stage. For small, well understood tasks
+this will most likely mean creating an issue in GitHub to track progress and coordinate
+conversations. For more complex or speculative projects this might mean convening a
+meeting with relevant stakeholders, breaking the task into multiple stages and
+documenting the overarching roadmap, or opening a discussion thread in a shared channel
+(e.g. [GitHub Discussions](https://github.com/mitodl/hq/discussions))
 
 ## Implementation
 Once the scope of a problem is understood it is necessary to create a way to deliver the
