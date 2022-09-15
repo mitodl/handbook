@@ -1,3 +1,8 @@
+---
+parent: How To
+---
+# New Projects
+
 When starting a new project, we have a baseline of what's necessary
 from an infrastructure perspective. Here's a checklist:
 

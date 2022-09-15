@@ -1,4 +1,7 @@
-# edX Devstack Development Guide
+---
+parent: OpenedX
+---
+# Platform Development
 
 ### Purpose
 

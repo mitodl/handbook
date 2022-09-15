@@ -1,3 +1,8 @@
+---
+parent: How To
+---
+# Web App Guide
+
 # Docker/Django/Webpack Web App Guide
 
 **SECTIONS**
