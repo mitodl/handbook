@@ -1,3 +1,6 @@
+---
+parent: How We Deliver
+---
 # Development Process
 An approximate workflow guide to hacking on software at the MIT Office of Digital Learning.
 

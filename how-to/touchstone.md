@@ -1,4 +1,7 @@
-# Touchstone integration via python-social-auth
+---
+parent: How To
+---
+# Touchstone Integration
 
 ### Pre-requisites
 - Python packages

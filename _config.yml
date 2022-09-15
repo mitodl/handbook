@@ -4,7 +4,7 @@ description: Handbook for Open Learning Engineering
 show_downloads: false
 google_analytics:
 
-remote_theme: pmarsceill/just-the-docs
+remote_theme: just-the-docs/just-the-docs
 markdown: kramdown
 plugins:
   - jekyll-feed

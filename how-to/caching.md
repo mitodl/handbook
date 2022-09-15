@@ -1,3 +1,6 @@
+---
+parent: How To
+---
 # Caching
 
 ### When to consider caching

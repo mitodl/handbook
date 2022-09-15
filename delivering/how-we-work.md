@@ -1,3 +1,6 @@
+---
+parent: How We Deliver
+---
 # How We Work
 We hire smart and talented people and support them in doing their best work. The core
 component of how we think about "getting work done" is that we trust everyone to take
@@ -48,7 +51,7 @@ incorporated into one of our source repositories. Sometimes it will mean using
 third-party services or tools. Maybe it requires something else entirely. As the person
 solving the problem, you are best situated to know how best to bring it to resolution.
 
-For more details on our development process please refer to the guide [here](/development-process.html).
+For more details on our development process please refer to the guide [here](/delivering/development-process.html).
 
 ## Validate
 Once a feature is added to one of our products, we need to ensure that it functions
@@ -84,6 +87,6 @@ includes:
   expanded IAM permissions”, etc.)
 
 For a more comprehensive list of the application level details involved in something
-being ready for production refer to the "[production readiness](/production-ready.html)"
+being ready for production refer to the "[production readiness](/delivering/production-ready.html)"
 guide. The steps involved in getting the code delivered to production are documented in
-the [release process](/release-process.html) guide.
+the [release process](/delivering/release-process.html) guide.

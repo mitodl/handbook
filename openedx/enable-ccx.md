@@ -1,3 +1,8 @@
+---
+parent: OpenedX
+---
+# Enabling CCX
+
 Starting with a fresh install of devstack,
 
 1. Create a private.py for cms (`edx-platform/cms/envs/private.py`) with the following lines:
