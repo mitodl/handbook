@@ -182,7 +182,10 @@ docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js
 docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js "should test basic arithmetic"
 ```
 
-**NOTE:** In some of our projects we include a shell script that runs the entire test suite including linting, etc.: `./test_suite.sh`
+**NOTE:** 
+In some of our projects we include a shell script that runs the entire test suite including linting, etc.: `./test_suite.sh`.
+If you're in yarn workspaces enabled project e.g. MITxOnline, you will need to replace `npm run` with `workspaces foreach run` for the below commands.
+
 
 #### Running tests via npm
 
