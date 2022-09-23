@@ -184,38 +184,38 @@ docker-compose run --rm watch ./scripts/test/js_test.sh path/to/file.js "should 
 
 **NOTE:** 
 In some of our projects we include a shell script that runs the entire test suite including linting, etc.: `./test_suite.sh`.
-If you're in yarn workspaces enabled project e.g. MITxOnline, you will need to replace `npm run` with `workspaces foreach run` for the below commands.
+If you're in yarn workspaces enabled project e.g. MITxOnline, you will need to replace `yarn run` with `yarn workspaces foreach run` for the below commands.
 
 
-#### Running tests via npm
+#### Running tests via yarn
 
-In 2021 we changed our JS testing practice to use npm directly to run the JS test suite, and to use [jest](https://jestjs.io/docs/getting-started) 
+In 2021 we changed our JS testing practice to use yarn directly to run the JS test suite, and to use [jest](https://jestjs.io/docs/getting-started) 
 as our testing framework.
 
 If your project DOES NOT include a `js_test.sh` file, this is how you can run the JS test suite:
 
 ```bash
-docker-compose run --rm watch npm run test
+docker-compose run --rm watch yarn run test
 # Run JS tests in specific file
-docker-compose run --rm watch npm run test path/to/file.test.js
+docker-compose run --rm watch yarn run test path/to/file.test.js
 # Run JS tests in specific file with a description that matches some text
-docker-compose run --rm watch npm run test path/to/file.test.js -- -t "should test basic arithmetic"
+docker-compose run --rm watch yarn run test path/to/file.test.js -- -t "should test basic arithmetic"
 
 # Run jest in watch mode (`jest --watch`) to continuously catch test failures
-docker-compose run --rm watch npm run test:watch
+docker-compose run --rm watch yarn run test:watch
 # Generate a coverage report
-docker-compose run --rm watch npm run test:coverage
+docker-compose run --rm watch yarn run test:coverage
 ```
 
 #### Linting and formatting
 
 ```bash
 # Run the JS linter
-docker-compose run --rm watch npm run lint
+docker-compose run --rm watch yarn run lint
 # Run SCSS linter
-docker-compose run --rm watch npm run scss_lint
+docker-compose run --rm watch yarn run scss_lint
 # Run prettier-eslint, which fixes style issues that may be causing the build to fail
-docker-compose run --rm watch npm run fmt
+docker-compose run --rm watch yarn run fmt
 ```
 
 #### Type-checking
@@ -231,7 +231,7 @@ As stated above, type-checking is done automatically with Typescript-enabled pro
 any commands, but you can still type-check with a command if you prefer:
 
 ```bash
-docker-compose run --rm watch npm run typecheck
+docker-compose run --rm watch yarn run typecheck
 ```
 
 This runs `tsc --noEmit`, which basically type-checks the program and outputs
@@ -243,7 +243,7 @@ turned on, so this should be relatively fast. It uses a file called
 
 ```bash
 # Run the Flow type checker to check for typing errors
-docker-compose run --rm watch npm run-script flow
+docker-compose run --rm watch yarn run-script flow
 ```
 
 #### Speeding up test development
