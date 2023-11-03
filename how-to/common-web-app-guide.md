@@ -48,9 +48,9 @@ _NOTE: You will also need to run this command whenever requirements files change
 
 #### 3) Create database tables from the Django models
 
-    docker compose run web ./manage.py migrate
+    docker compose run --rm web ./manage.py migrate
 
-_NOTE: You will also need to run this command whenever there are new migrations (i.e.: database models have been changed/added/removed)._
+_NOTE: The `./manage.py migrate` command must be run whenever there are migrations (i.e.: database models have been changed/added/removed); generally, our apps are set up to run it automatically upon starting._
 
 #### _(Optional)_ Create a superuser
 
@@ -58,7 +58,7 @@ Some of our apps include user creation as part of their specific setup steps. If
 include steps to create a user, you can create one easily via Django's `createsuperuser` command.
 It will prompt you for the username and some other details for this user.
 
-    docker compose run web ./manage.py createsuperuser
+    docker compose run --rm web ./manage.py createsuperuser
 
 ### Add `/etc/hosts` alias for the site
 
@@ -316,7 +316,7 @@ would in a Django shell.
 
 #### Error message indicating that the `auth_user` table doesn't exist
 
-Try running `docker compose run web ./manage.py migrate auth`, then run `docker compose run web ./manage.py migrate`.
+Try running `docker compose run --rm web ./manage.py migrate auth`, then run `docker compose run --rm web ./manage.py migrate`.
 
 #### _[OSX only]_ Error indicating that Docker for Mac is not running (even though it is running)
 
