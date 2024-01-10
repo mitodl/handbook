@@ -3,7 +3,7 @@
 ## Responsibilities
 
 Your primary responsibility when oncall is ensuring the operational safety of
-MIT online learning infrastructure.
+MIT Open Learning infrastructure.
 
 ### Answering Pages and Slack Broadcasts
 
