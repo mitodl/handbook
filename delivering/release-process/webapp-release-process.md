@@ -17,7 +17,7 @@ As an engineer you have responsibilities to ensure the work you've done is relia
 - After your code is merged:
   - When the changes have been deployed on RC, verify your changes via functional testing and obtain acceptance from any necessary stakeholders.
 - After your code is released:
-  - Perform smoke testing of the functionality if it won't interfere other application users.
+  - Perform smoke testing of the functionality if it won't interfere with other application users.
 
 ### Engineering Team
 
