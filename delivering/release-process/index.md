@@ -29,7 +29,7 @@ When a new release candidate is created, the role of "release manager" is design
 
 ### Release Candidates
   
-Engineers create release candidates whenever they need to.  Release candidates (releases to the CI and QA environments) can be performed whenever, unless a hold or blocker as been communicated by another team member.  
+Engineers create release candidates whenever they need to.  Release candidates (releases to the CI and RC environments) can be performed whenever, unless a hold or blocker as been communicated by another team member.  
 
 - Consider the following when there is already a release candidate in progress:
   - If your changes **aren't** urgent, wait for this release candidate to be completed.
