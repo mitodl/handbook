@@ -13,7 +13,7 @@ Communication around releases is important:
 
 - The main channel for communication around releases is the Slack channel for the product associated with the release.
 - If you won't be available to verify your changes in the RC environment, ask a team member to take over and verify your changes in RC.
-- If a release candidate should not be promoted to the Production environment, identify and communicate the next steps within the Slack channel for the product associated with the release.s
+- If a release candidate should not be promoted to the Production environment, identify and communicate the next steps within the Slack channel for the product associated with the release.
 
 
 ### Engineering Team
