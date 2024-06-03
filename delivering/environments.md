@@ -3,31 +3,39 @@ parent: How We Deliver
 ---
 # Environments
 
-- Each has its own purpose and are deployed independently from each other (e.g. separate servers, DBs, etc).
-- Each gets a fresh deployment of new code once the automated tests for that particular commit pass.
+- Each environment is deployed independently (e.g. separate servers, DBs, etc).
+- Each environment deploys new code included in the release once the automated tests for that particular release-commit pass successfully.
+
+## Environment Name
+
+|              |                                                      |
+|--------------|------------------------------------------------------|
+| Git Branch   | The Github branch that the environment has deployed. |
+| Purpose      | The purpose of the environment.                      |
+| Expectations | Expectations for environment usage and processes.    |
 
 
 ## CI
 
-|            |                                                                                                                                  |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Git Branch | `main` or `master`                                                                                                               |
-| Purpose    | Functional testing of recently merged code in a more production-like environment prior to being included in a release candidate. |
-| When       | Testing is at engineer discretion and is recommended if you haven't been able to fully test locally.                             |
+|              |                                                                                                                                    |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Git Branch   | `main` or `master`                                                                                                                 |
+| Purpose      | Testing code from `main` or `master` in a deployed environment prior to being included in a release candidate and release process. |
+| Expectations | Code is tested and functionality confirmed shortly after releasing to CI.                                                          |
 
 
 ## RC
 
-|            |                                                                                                                                        |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Git Branch | `release-candidate`                                                                                                                    |
-| Purpose    | Functional testing by engineers prior to production deployment.<br/>Acceptance testing by stakeholders.<br/>Demonstration environment. |
-| When       | Testing is **required** before the code can be released.                                                                               |
+|              |                                                                                                                           |
+|--------------|---------------------------------------------------------------------------------------------------------------------------|
+| Git Branch   | `release-candidate`                                                                                                       |
+| Purpose      | Functional testing prior to production deployment.<br/>Acceptance testing by stakeholders.<br/>Demonstration environment. |
+| Expectations | Mock data can be created.  Some risk is acceptable by deploying code that cannot be tested locally by a developer.        |
 
 ## Production
 
-|            |                                                                |
-| ---------- | -------------------------------------------------------------- |
-| Git Branch | `release`                                                      |
-| Purpose    | Environment for end users.                                     |
-| When       | Occasional smoke testing may be required, particularly after . |
+|              |                                                                                |
+|--------------|--------------------------------------------------------------------------------|
+| Git Branch   | `release`                                                                      |
+| Purpose      | Environment for end users.                                                     |
+| Expectations | Limit creation of mock data.  Code and functionality should pose minimal risk. |
