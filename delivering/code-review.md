@@ -65,6 +65,8 @@ Understand why the code is necessary (bug, user experience, refactoring). Then:
 author make the final decision on alternative implementations.
 * Offer alternative implementations, but assume the author already considered
 them. ("What do you think about using a custom validator here?")
+  * If possible, use GitHub's suggestion feature to be specific about how a line or two of code could be changed.
+  * If you want to code a complex alternative, consider opening a PR with your change that targets the PR you are reviewing. Don't add commits to the branch you are reviewing without discussing with the author to avoid merge conflicts.
 * Seek to understand the author's perspective.
 * Sign off on the pull request with a :thumbsup: or "Ready to merge" comment... always!
 * Compliment/reinforce good practices.
