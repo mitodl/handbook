@@ -103,8 +103,8 @@ In Open edX (derived from instructions `here <https://edx.readthedocs.io/project
         THIRD_PARTY_AUTH_BACKENDS:
         - social_auth_mitxpro.backends.MITxProOAuth2
 
-* ``make lms-restart`` to pick up the configuration changes
-* Login to django-admin (default username and password can be found `here <https://github.com/openedx/devstack#usernames-and-passwords>`_), go to ``http://<EDX_HOSTNAME>:18000/admin/third_party_auth/oauth2providerconfig/``, and create a new config:
+* `make lms-restart` to pick up the configuration changes
+* Login to django-admin (default username and password can be found `here <https://github.com/openedx/devstack#usernames-and-passwords>`), go to `http://<EDX_HOSTNAME>:18000/admin/third_party_auth/oauth2providerconfig/`, and create a new config:
 
   * Select the default example site
   * The slug field **MUST** match the the backend's name, which for us is `mitxpro-oauth2`
@@ -115,7 +115,7 @@ In Open edX (derived from instructions `here <https://edx.readthedocs.io/project
     * Skip registration form
     * Sync learner profile data
     * Enable SSO id verification
-  * Set Backend name to: ``mitxpro-oauth2``
+  * Set Backend name to: `mitxpro-oauth2`
 
   * In "Other settings", put:
 
@@ -123,15 +123,17 @@ In Open edX (derived from instructions `here <https://edx.readthedocs.io/project
 
         {
             "AUTHORIZATION_URL": "http://<LOCAL_MITX_{service}_ALIAS>:<PORT>/oauth2/authorize/",
-            "ACCESS_TOKEN_URL": "http://<EXTERNAL_MITX_{service}_HOST>:8013/oauth2/token/",
-            "API_ROOT": "http://<EXTERNAL_MITX_{service}_HOST>:8013/"
+            "ACCESS_TOKEN_URL": "http://<EXTERNAL_MITX_{service}_HOST>:<PORT>/oauth2/token/",
+            "API_ROOT": "http://<EXTERNAL_MITX_{service}_HOST>:<PORT>>/"
         }
 
-  * ``LOCAL_MITX_{service}_ALIAS`` should be your ``/etc/hosts`` alias for the mitx{service} app
-  * ``EXTERNAL_MITX_{service}_HOST`` will depend on your OS, but it needs to be resolvable within the edx container
+    **NOTE:** `Port` for `MITxOnline` is `8031` and for `MITxPro` its `8053`
 
-    * Linux users: The gateway IP of the docker-compose networking setup for mitx{service} as found via ``docker network inspect mitx-{service}_default``
-    * OSX users: Use ``host.docker.internal``
+  * `LOCAL_MITX_{service}_ALIAS` should be your `/etc/hosts` alias for the mitx{service} app
+  * `EXTERNAL_MITX_{service}_HOST` will depend on your OS, but it needs to be resolvable within the edx container
+
+    * Linux users: The gateway IP of the docker-compose networking setup for mitx{service} as found via `docker network inspect mitx-{service}_default`
+    * OSX users: Use `host.docker.internal`
 
   * Save the configuration.
 

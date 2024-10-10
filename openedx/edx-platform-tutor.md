@@ -63,8 +63,6 @@ For best results, create two new courses within edX. The MITx {service} `configu
 
 If you have a devstack instance handy, you can export these and import them into Tutor. Otherwise, just create them and make sure to set dates for the courses (they default to 2030 otherwise).
 
-Finally, go here to create an access token for the service worker user: `<PROTOCOL>://<HOSTNAME>:<PORT>/admin/oauth2_provider/accesstoken/add/` The token can be anything, and the expiration date should just be today plus 10 years.
-
 Tutor Setup, Part Two
 ---------------------
 
@@ -139,6 +137,8 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
                 "ACCESS_TOKEN_URL": "\http://<MITX{service}_GATEWAY_IP>:<PORT>/oauth2/token/",
                 "API_ROOT": "\http://<MITX{service}_GATEWAY_IP>:<PORT>/"
             }
+
+        **NOTE:** `Port` for `MITxOnline` is `8031` and for `MITxPro` its `8053`
 
      where MITX{service}_GATEWAY_IP is the IP from the `mitx{service}_default` network from the first step. **Mac users**, use `host.docker.internal` for MITX{service}_GATEWAY_IP.
 

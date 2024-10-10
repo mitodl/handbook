@@ -10,6 +10,27 @@ There are 2 ways to setup edx-platform:
 
 **NOTE:** {service} will be reffered to {online|pro} whichever service you are setting up
 
+## Configure Open edX user and token for use with {service} management commands
+
+* In Open edX, create a staff user `mitx_{service}_serviceworker` and then under `/admin/oauth2_provider/accesstoken/` add access token with that newly created staff user.
+
+## MITx {service} Setup
+
+To set up MITx {service}:
+
+1. Get the gateway IP for the `EDX_APP`
+   1. Linux users: The gateway IP of the docker-compose networking setup for edx LMS `docker network inspect tutor_dev_default | grep Gateway`. For devstack you can use `docker network inspect <LMS_COTNAINER_NAME> | grep Gateway`
+   2. OSX users: Use `host.docker.internal`
+
+2. Set up your `.env` file. These settings need particular attention:
+
+   * `OPENEDX_IP` : set to the gateway IP from the first step.
+   * `OPENEDX_API_BASE_URL` : set to `http://<EDX_HOSTNAME>:<PORT>`
+   * `OPENEDX_SERVICE_WORKER_USERNAME` : set to `mitx_{service}_serviceworker` (unless you changed this)
+   * `OPENEDX_SERVICE_WORKER_API_TOKEN` : set to the token you just generated
+
+3. Build the app: `docker-compose build`
+
 ## Run the configure_instance command
 
     docker-compose run --rm web ./manage.py configure_instance linux --gateway <ip> --tutor-dev --edx-oauth-client <client_id> --edx-oauth-secret <client_secret>
