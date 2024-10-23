@@ -113,6 +113,9 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
         FEATURES:
             ALLOW_PUBLIC_ACCOUNT_CREATION: true
+            ENABLE_COMBINED_LOGIN_REGISTRATION: true
+            ENABLE_THIRD_PARTY_AUTH: true
+            ENABLE_OAUTH2_PROVIDER: true
             SKIP_EMAIL_VALIDATION: true
 
    The `FEATURES` block (should be at the top).
@@ -122,7 +125,9 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
    * Add to the end of the file:
 
       * `THIRD_PARTY_AUTH_BACKENDS = ['social_auth_mitxpro.backends.MITxProOAuth2']`
+      * `REGISTRATION_EXTRA_FIELDS["country"] = "hidden"`
       * `AUTHENTICATION_BACKENDS.append('social_auth_mitxpro.backends.MITxProOAuth2')`
+      * `SOCIAL_AUTH_OAUTH_SECRETS = {"mitxpro-oauth2": <MIT_Client_Secret> }` - Client Secret that you just copied after `configure_instance` management command
       * `IDA_LOGOUT_URI_LIST.append('http://{Domain}:{PORT}/logout/')` - there's an existing one of these around like 300 in production.py too.
 
     * Find and update:
@@ -145,7 +150,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 13. In the superuser session you have open, go to `http://local.edly.io:8000/admin`. This should work. If you've been logged out, you should still be able to get in. If you can't (for instance, if you're getting 500 errors), you will need to turn off `ENABLE_THIRD_PARTY_AUTH` in `FEATURES`, restart Tutor using `tutor local stop` and `start`, not using `reboot`, then try again.
 14. Go to `http://local.edly.io:8000/admin/third_party_auth/oauth2providerconfig/add/` and add a provider configuration:
 
-    * Enabled is checked.
+    * Enabled is **checked**.
     * Name: `mitxApplication`
     * Slug: `mitxpro-oauth2`
     * Site: `example.com`
@@ -158,9 +163,9 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
     * Other settings:
 
             {
-                "AUTHORIZATION_URL": "\http://{app_domain}.odl.local:<PORT>/oauth2/authorize/",
-                "ACCESS_TOKEN_URL": "\http://<MITXApplication_GATEWAY_IP>:<PORT>/oauth2/token/",
-                "API_ROOT": "\http://<MITXApplication_GATEWAY_IP>:<PORT>/"
+                "AUTHORIZATION_URL": "http://{Domain}:{PORT}/oauth2/authorize/",
+                "ACCESS_TOKEN_URL": "http://<MITxApplication_GATEWAY_IP>:<PORT>/oauth2/token/",
+                "API_ROOT": "http://<MITxApplication_GATEWAY_IP>:<PORT>/"
             }
 
      where MITxApplication_GATEWAY_IP is the IP from the `mitxApplication_default` network from the first step. **Mac users**, use `host.docker.internal` for MITxApplication_GATEWAY_IP.
@@ -177,3 +182,38 @@ Other Notes
 **Restarting** If you want to rebuild from scratch, make sure you `docker image prune`. It's also recommended to remove the Tutor project root folder - `tutor config printroot` will tell you where that is.
 
 **Running Multiple Tutor Instances** If you want to run more than one Tutor instance, it's pretty important to specify the project root explicitly or you may end up with one instance trying to use config files from another and things getting confused from there. `See the Tutor documentation for this. <https://docs.tutor.overhang.io/local.html#tutor-root>`_ (A suggestion: configure aliases to the `tutor` command that run `tutor --root=<whatever>` so you don't have to rely on environment variables, especially if you keep multiple terminal sessions going.)
+
+
+## Configure Open edX to support OAuth2 authentication from MITx Application
+
+   * Go to `http://local.edly.io:8000s/admin/oauth2_provider/application/` and add/edit the `edx-oauth-app` entry.
+   * Ensure these settings are set:
+
+      * Name: `edx-oauth-app`
+      * Redirect uris: `http://{Domain}:{PORT}/login/_private/complete`
+      * Client type: `Confidential`
+      * Authorization grant type: `Authorization code`
+      * Skip authorization is checked.
+
+   * Save `Client id` and `Client secret`.
+
+Update your MIT Application `.env` file. Set `OPENEDX_API_CLIENT_ID` and `OPENEDX_API_CLIENT_SECRET` to the values from the record you created or updated in the last step.
+
+Also set the **LOGOUT_REDIRECT_URL** in `.env`:
+  ```
+  LOGOUT_REDIRECT_URL to the http://local.edly.io:8000s/logout view.
+  ```
+
+  * Build the MIT Application: `docker-compose build`
+
+You should now be able to run some MIT Application management commands to ensure the service worker is set up properly:
+
+   * `sync_courserun --all ALL` should sync the two test courses (if you made them).
+      - `sync_courseruns --all ALL` in MITxPro
+   * `repair_missing_courseware_records` should also work.
+
+In the separate browser session, attempt to log in again. This time, you should be able to log in through MIT Application, and you should be able to get to the edX LMS dashboard. If not, then double-check your provider configuration settings and try again.
+
+   * If you are still getting "Can't fetch settings" errors, **make sure** your Site is set properly - there are three options by default and only one works. (This was typically the problem I had.)
+
+**Optionally**, log into the LMS Django Admin and make your MIT Application superuser account a superuser there too.

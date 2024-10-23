@@ -172,7 +172,7 @@ In Open edX (derived from instructions `here <https://edx.readthedocs.io/project
 
 ## Configure Open edX to support OAuth2 authentication from MITx Application
 
-   * Go to `http:edx.odl.local:18000/admin/oauth2_provider/application/` and add/edit the `edx-oauth-app` entry.
+   * Go to `http://edx.odl.local:18000/admin/oauth2_provider/application/` and add/edit the `edx-oauth-app` entry.
    * Ensure these settings are set:
 
       * Name: `edx-oauth-app`
@@ -187,7 +187,7 @@ Update your MIT Application `.env` file. Set `OPENEDX_API_CLIENT_ID` and `OPENED
 
 Also set the **LOGOUT_REDIRECT_URL** in `.env`:
   ```
-  LOGOUT_REDIRECT_URL to the http:edx.odl.local:18000/logout view.
+  LOGOUT_REDIRECT_URL to the http://edx.odl.local:18000/logout view.
   ```
 
   * Build the MIT Application: `docker-compose build`
