@@ -153,13 +153,14 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
     * Enabled is **checked**.
     * Name: `mitxApplication`
     * Slug: `mitxpro-oauth2`
-    * Site: `example.com`
+    * Site: `local.edly.io:8000`
     * Skip hinted login dialog is **checked**.
     * Skip registration form is **checked**.
     * Skip email verification is **checked**.
     * Sync learner profile data is **checked**.
     * Enable sso id verification is **checked**.
     * Backend name: `mitxpro-oauth2`
+    * `Client ID` and `Client Secret`: from record created by `configure_instance` when you set up MITx Application.
     * Other settings:
 
             {
@@ -169,20 +170,6 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
             }
 
      where MITxApplication_GATEWAY_IP is the IP from the `mitxApplication_default` network from the first step. **Mac users**, use `host.docker.internal` for MITxApplication_GATEWAY_IP.
-
-    **NOTE:** Please note down the Client Id and Client Secret for MITx service integration
-
-Other Notes
------------
-
-**Trying to set configuration settings via `tutor config` will undo the specialty configuration above.** If you need to make changes to the configuration, either manually edit the `env/apps/openedx/config/lms.env.yml` file or the `env/apps/openedx/settings/lms/production.py` file and restart your Tutor instance.
-
-**Make sure your service worker account is active.** It's an easy checkbox to miss.
-
-**Restarting** If you want to rebuild from scratch, make sure you `docker image prune`. It's also recommended to remove the Tutor project root folder - `tutor config printroot` will tell you where that is.
-
-**Running Multiple Tutor Instances** If you want to run more than one Tutor instance, it's pretty important to specify the project root explicitly or you may end up with one instance trying to use config files from another and things getting confused from there. `See the Tutor documentation for this. <https://docs.tutor.overhang.io/local.html#tutor-root>`_ (A suggestion: configure aliases to the `tutor` command that run `tutor --root=<whatever>` so you don't have to rely on environment variables, especially if you keep multiple terminal sessions going.)
-
 
 ## Configure Open edX to support OAuth2 authentication from MITx Application
 
@@ -217,3 +204,14 @@ In the separate browser session, attempt to log in again. This time, you should 
    * If you are still getting "Can't fetch settings" errors, **make sure** your Site is set properly - there are three options by default and only one works. (This was typically the problem I had.)
 
 **Optionally**, log into the LMS Django Admin and make your MIT Application superuser account a superuser there too.
+
+Other Notes
+-----------
+
+**Trying to set configuration settings via `tutor config` will undo the specialty configuration above.** If you need to make changes to the configuration, either manually edit the `env/apps/openedx/config/lms.env.yml` file or the `env/apps/openedx/settings/lms/production.py` file and restart your Tutor instance.
+
+**Make sure your service worker account is active.** It's an easy checkbox to miss.
+
+**Restarting** If you want to rebuild from scratch, make sure you `docker image prune`. It's also recommended to remove the Tutor project root folder - `tutor config printroot` will tell you where that is.
+
+**Running Multiple Tutor Instances** If you want to run more than one Tutor instance, it's pretty important to specify the project root explicitly or you may end up with one instance trying to use config files from another and things getting confused from there. `See the Tutor documentation for this. <https://docs.tutor.overhang.io/local.html#tutor-root>`_ (A suggestion: configure aliases to the `tutor` command that run `tutor --root=<whatever>` so you don't have to rely on environment variables, especially if you keep multiple terminal sessions going.)
