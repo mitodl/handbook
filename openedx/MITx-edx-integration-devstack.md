@@ -94,6 +94,8 @@ To set up MIT Application:
    - `OPENEDX_SERVICE_WORKER_USERNAME`: set to `mit_Application_serviceworker` (unless you changed this)
    - `OPENEDX_SERVICE_WORKER_API_TOKEN`: set to the token you just generated
 
+   - Build the MIT Application: `docker-compose build`
+
 ## Run the `configure_instance` management command
 
     docker-compose run --rm web ./manage.py configure_instance linux --gateway <ip>
