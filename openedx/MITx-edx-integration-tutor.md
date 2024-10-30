@@ -20,12 +20,9 @@ You'll want to create at least a virtualenv for Tutor. As of this writing, Tutor
 
 ## Tutor Setup, Part One
 
-    Note that no hosts file changes are needed if you use the default `local.edly.io` domain - that's a real domain with a wildcard subdomain cname that points to 127.0.0.1.
+    Note that no hosts file changes are needed if you use the default `local.openedx.io` domain - that's a real domain with a wildcard subdomain cname that points to 127.0.0.1.
 
-To begin, you need to follow the `[One-Click Installer](https://docs.tutor.overhang.io/quickstart.html)` instructions provided by Tutor. Do this with your Tutor virtualenv activated.
-
-    Mac/Arm users should instead follow these instructions: `Running Tutor on ARM-based systems <https://docs.tutor.overhang.io/tutorials/arm64.html>` It's mostly the same steps that the quickstart does internally, with some changes to rebuild some of the images and flip some dependencies to use compatible images for Arm.
-
+To begin, you need to follow the `[Installing Tutor](https://docs.tutor.edly.io/install.html)` instructions provided by Tutor **for local development installations**. Do this with your Tutor virtualenv activated.
 
 Once Tutor has bootstrapped itself and is available, create a superuser account:
 
@@ -51,7 +48,7 @@ If you have a devstack instance handy, you can export these and import them into
 
 ### Configure Open edX user and token for use with MITx Application management commands
 
-- In Open edX, under `/admin/oauth2_provider/accesstoken/` add access token with that newly created staff user.
+- In Open edX, under `http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/` add access token with that newly created staff user.
 
 ### MIT Application Setup
 
@@ -82,7 +79,7 @@ Note that some of these steps require editing the main configuration files for t
 These steps will also disable the AuthN SSO MFE, so from here on you'll get normal edX authentication screens (if you're not being bounced to MITx Application).
 
 
-1. Get the gateway IP of the `mitxApplication_default` Docker network:
+1. Get the gateway IP of the `mitxApplication_default` Docker network example:
 
        docker network inspect mitxpro_default | grep Gateway
 
@@ -92,10 +89,12 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
         cd "$(tutor config printroot)"
 
-5. Create a `env/build/openedx/requirements/private.txt` with the required extensions:
+5. Add extra requirements required for OAuth Configuration:
 
-       social-auth-mitxpro
-       openedx-companion-auth
+       tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=social-auth-mitxpro
+       tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=openedx-companion-auth
+
+   **NOTE**: Reference for [Installing extra xblocks and requirements](https://docs.tutor.edly.io/configuration.html#installing-extra-xblocks-and-requirements)
 
 6. Edit the `env/apps/openedx/config/lms.env.yml` file and add:
 
@@ -130,14 +129,14 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
     - `tutor dev run lms ./manage.py lms print_setting THIRD_PARTY_AUTH_BACKENDS`
     - If you do have weird errors or settings not showing properly, make sure you edited the right yaml files *and* that they're using the right whitespace (i.e. don't use tabs).
 
-12. In a separate browser session of some kind (incognito/private browsing/other browser entirely), try to navigate to `http://local.edly.io:8000`. It should load but it should give you an error message. In the LMS logs, you should see an error message for "Can't fetch settings for disabled provider." This is proper operation - the OAuth2 settings aren't in place yet.
-13. In the superuser session you have open, go to `http://local.edly.io:8000/admin`. This should work. If you've been logged out, you should still be able to get in. If you can't (for instance, if you're getting 500 errors), you will need to turn off `ENABLE_THIRD_PARTY_AUTH` in `FEATURES`, restart Tutor using `tutor dev stop` and `start`, not using `reboot`, then try again.
-14. Go to `http://local.edly.io:8000/admin/third_party_auth/oauth2providerconfig/add/` and add a provider configuration:
+12. In a separate browser session of some kind (incognito/private browsing/other browser entirely), try to navigate to `http://local.openedx.io:8000`. It should load but it should give you an error message. In the LMS logs, you should see an error message for "Can't fetch settings for disabled provider." This is proper operation - the OAuth2 settings aren't in place yet.
+13. In the superuser session you have open, go to `http://local.openedx.io:8000/admin`. This should work. If you've been logged out, you should still be able to get in. If you can't (for instance, if you're getting 500 errors), you will need to turn off `ENABLE_THIRD_PARTY_AUTH` in `FEATURES`, restart Tutor using `tutor dev stop` and `start`, not using `reboot`, then try again.
+14. Go to `http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/` and add a provider configuration:
 
     - Enabled is **checked**.
     - Name: `Login with MIT App`
     - Slug: `mitxpro-oauth2`
-    - Site: `local.edly.io:8000`
+    - Site: `local.openedx.io:8000`
     - Skip hinted login dialog is **checked**.
     - Skip registration form is **checked**.
     - Skip email verification is **checked**.
@@ -157,7 +156,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
 ### Configure Open edX to support OAuth2 authentication from MITx Application
 
-   - Go to `http://local.edly.io:8000/admin/oauth2_provider/application/` and add/edit the `edx-oauth-app` entry.
+   - Go to `http://local.openedx.io:8000/admin/oauth2_provider/application/` and add/edit the `edx-oauth-app` entry.
    - Ensure these settings are set:
 
       - Name: `edx-oauth-app`
@@ -172,7 +171,7 @@ Update your MIT Application `.env` file. Set `OPENEDX_API_CLIENT_ID` and `OPENED
 
 Also set the **LOGOUT_REDIRECT_URL** in `.env`:
 
-    LOGOUT_REDIRECT_URL=http://local.edly.io:8000s/logout
+    LOGOUT_REDIRECT_URL=http://local.openedx.io:8000/logout
 
   - Build the MIT Application: `docker-compose build`
 
