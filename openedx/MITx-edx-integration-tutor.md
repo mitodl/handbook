@@ -79,7 +79,7 @@ Note that some of these steps require editing the main configuration files for t
 These steps will also disable the AuthN SSO MFE, so from here on you'll get normal edX authentication screens (if you're not being bounced to MITx Application).
 
 
-1. Get the gateway IP of the `mitxApplication_default` Docker network example:
+1. Get the gateway IP of the `mitxApplication_default` Docker network. Example:
 
        docker network inspect mitxpro_default | grep Gateway
 
