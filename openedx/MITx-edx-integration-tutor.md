@@ -22,7 +22,7 @@ You'll want to create at least a virtualenv for Tutor. As of this writing, Tutor
 
     Note that no hosts file changes are needed if you use the default `local.openedx.io` domain - that's a real domain with a wildcard subdomain cname that points to 127.0.0.1.
 
-To begin, you need to follow the `[Installing Tutor](https://docs.tutor.edly.io/install.html)` instructions provided by Tutor **for local development installations**. Do this with your Tutor virtualenv activated.
+To begin, you need to follow the [Installing Tutor for development](https://docs.tutor.edly.io/dev.html#open-edx-development) instructions provided by Tutor **for local development installations**. Do this with your Tutor virtualenv activated.
 
 Once Tutor has bootstrapped itself and is available, create a superuser account:
 
@@ -85,18 +85,39 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
 2. Log into to edX using your superuser account, and make sure your session stays open. Sessions are pretty long-lived so this just means not closing the browser that you started the session in. (Part of this process will involve mostly breaking authentication so it's important that you are able to get into the admin.)
 3. Stop Tutor: `tutor dev stop`
-4. Change into the configuration root for Tutor:
-
-        cd "$(tutor config printroot)"
-
-5. Add extra requirements required for OAuth Configuration:
+4. Add extra requirements required for OAuth Configuration:
 
        tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=social-auth-mitxpro
        tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=openedx-companion-auth
 
    **NOTE**: Reference for [Installing extra xblocks and requirements](https://docs.tutor.edly.io/configuration.html#installing-extra-xblocks-and-requirements)
 
-6. Edit the `env/apps/openedx/config/lms.env.yml` file and add:
+5. **SKIP NEXT 3 STEPS ONLY if** you have cloned `edx-platform` and mounted it while setting up the tutor. You can create `private.py` file at `edx-platform/lms/envs/{here}` and add the following configurations to allow additional OAuth providers
+
+   ```
+   from .production import AUTHENTICATION_BACKENDS, FEATURES, IDA_LOGOUT_URI_LIST, REGISTRATION_EXTRA_FIELDS
+
+   FEATURES["ALLOW_PUBLIC_ACCOUNT_CREATION"] = True
+   FEATURES["SKIP_EMAIL_VALIDATION"] = True
+
+   REGISTRATION_EXTRA_FIELDS["country"] = "hidden"
+
+   THIRD_PARTY_AUTH_BACKENDS = ["social_auth_mitxpro.backends.MITxProOAuth2",]
+
+   AUTHENTICATION_BACKENDS = list(THIRD_PARTY_AUTH_BACKENDS) + list(AUTHENTICATION_BACKENDS)
+
+   IDA_LOGOUT_URI_LIST = list(IDA_LOGOUT_URI_LIST) + list(["http://{Domain}:{PORT}/logout"])
+
+   SOCIAL_AUTH_OAUTH_SECRETS = {
+      "mitxpro-oauth2": <mit_app_client_secret>  // you just copied from configure_instance command output
+   }
+   ```
+
+6. Change into the configuration root for Tutor:
+
+        cd "$(tutor config printroot)"
+
+7. Edit the `env/apps/openedx/config/lms.env.yml` file and add:
 
         FEATURES:
             ALLOW_PUBLIC_ACCOUNT_CREATION: true
@@ -104,7 +125,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
    The `FEATURES` block (should be at the top).
 
-7. Edit the `env/apps/openedx/settings/lms/production.py` and/or `env/apps/openedx/settings/lms/development.py` settings file. (The former is used by a local instance, where the latter is used by both dev and nightly instances.)
+8. Edit the `env/apps/openedx/settings/lms/development.py` settings file.
 
    - Add to the end of the file:
 
@@ -112,16 +133,16 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
       - `REGISTRATION_EXTRA_FIELDS["country"] = "hidden"`
       - `AUTHENTICATION_BACKENDS.append('social_auth_mitxpro.backends.MITxProOAuth2')`
       - `SOCIAL_AUTH_OAUTH_SECRETS = {"mitxpro-oauth2": <MIT_Client_Secret> }` - Client Secret that you just copied after `configure_instance` management command
-      - `IDA_LOGOUT_URI_LIST.append('http://{Domain}:{PORT}/logout/')` - there's an existing one of these around like 300 in production.py too.
+      - `IDA_LOGOUT_URI_LIST.append('http://{Domain}:{PORT}/logout/')`
 
     - Find and update:
 
       - `FEATURES['ENABLE_AUTHN_MICROFRONTEND'] = False` (defaults to True)
 
-8. Build a new `openedx` image: `tutor images build openedx-dev` (this will take a long time)
-9. Run a Docker Compse rebuild: `tutor dev dc build` (this should be pretty quick - it's likely not required, just doing it here for safety)
-10. Restart Tutor: `tutor dev start -d` (omit `-d` if you want to watch the logs)
-11. Check your settings. There's a `print_setting` command that you can use to verify everything is set properly:
+9. Build a new `openedx` image: `tutor images build openedx-dev` (this will take a long time)
+10. Run a Docker Compse rebuild: `tutor dev dc build` (this should be pretty quick - it's likely not required, just doing it here for safety)
+11. Restart Tutor: `tutor dev start -d` (omit `-d` if you want to watch the logs)
+12. Check your settings. There's a `print_setting` command that you can use to verify everything is set properly:
 
     - `tutor dev run lms ./manage.py lms print_setting REGISTRATION_EXTRA_FIELDS`
     - `tutor dev run lms ./manage.py lms print_setting AUTHENTICATION_BACKENDS`
@@ -129,9 +150,9 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
     - `tutor dev run lms ./manage.py lms print_setting THIRD_PARTY_AUTH_BACKENDS`
     - If you do have weird errors or settings not showing properly, make sure you edited the right yaml files *and* that they're using the right whitespace (i.e. don't use tabs).
 
-12. In a separate browser session of some kind (incognito/private browsing/other browser entirely), try to navigate to `http://local.openedx.io:8000`. It should load but it should give you an error message. In the LMS logs, you should see an error message for "Can't fetch settings for disabled provider." This is proper operation - the OAuth2 settings aren't in place yet.
-13. In the superuser session you have open, go to `http://local.openedx.io:8000/admin`. This should work. If you've been logged out, you should still be able to get in. If you can't (for instance, if you're getting 500 errors), you will need to turn off `ENABLE_THIRD_PARTY_AUTH` in `FEATURES`, restart Tutor using `tutor dev stop` and `start`, not using `reboot`, then try again.
-14. Go to `http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/` and add a provider configuration:
+13. In a separate browser session of some kind (incognito/private browsing/other browser entirely), try to navigate to `http://local.openedx.io:8000`. It should load but it should give you an error message. In the LMS logs, you should see an error message for "Can't fetch settings for disabled provider." This is proper operation - the OAuth2 settings aren't in place yet.
+14. In the superuser session you have open, go to `http://local.openedx.io:8000/admin`. This should work. If you've been logged out, you should still be able to get in. If you can't (for instance, if you're getting 500 errors), you will need to turn off `ENABLE_THIRD_PARTY_AUTH` in `FEATURES`, restart Tutor using `tutor dev stop` and `start`, not using `reboot`, then try again.
+15. Go to `http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/` and add a provider configuration:
 
     - Enabled is **checked**.
     - Name: `Login with MIT App`
