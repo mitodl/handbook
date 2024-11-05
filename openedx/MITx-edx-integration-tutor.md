@@ -92,7 +92,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
    **NOTE**: Reference for [Installing extra xblocks and requirements](https://docs.tutor.edly.io/configuration.html#installing-extra-xblocks-and-requirements)
 
-5. **SKIP NEXT 3 STEPS ONLY if** you have cloned `edx-platform` and mounted it while setting up the tutor. You can create `private.py` file at `edx-platform/lms/envs/{here}` and add the following configurations to allow additional OAuth providers
+5. **If you have cloned and mounted `edx-platform` while setting up the Tutor**, do this step and skip steps 6, 7, and 8. You can create `private.py` file at `edx-platform/lms/envs/{here}` and add the following configurations to allow additional OAuth providers
 
    ```
    from .production import AUTHENTICATION_BACKENDS, FEATURES, IDA_LOGOUT_URI_LIST, REGISTRATION_EXTRA_FIELDS
