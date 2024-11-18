@@ -104,7 +104,7 @@ To set up MIT Application:
 
 ## Configure MIT application as a OAuth provider for Open edX
 
-In Open edX (derived from instructions `[here](https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/tpa_integrate_open/tpa_oauth.html#additional-oauth2-providers-advanced)`):
+In Open edX (derived from instructions [`here`](https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/tpa_integrate_open/tpa_oauth.html#additional-oauth2-providers-advanced)):
 
 - Create `private.py` file at `edx-platform/lms/envs/{here}` and add the following configurations to allow additional OAuth providers
 
@@ -130,7 +130,7 @@ In Open edX (derived from instructions `[here](https://edx.readthedocs.io/projec
   }
   ```
 
-- Login to django-admin (default username and password can be found `[here](https://github.com/openedx/devstack#usernames-and-passwords)`), go to `http://edx.odl.local:18000/admin/third_party_auth/oauth2providerconfig/`, and create a new config:
+- Login to django-admin (default username and password can be found [`here`](https://github.com/openedx/devstack#usernames-and-passwords)), go to `http://edx.odl.local:18000/admin/third_party_auth/oauth2providerconfig/`, and create a new config:
 
   - Select the default example site
   - The slug field **MUST** match the the backend's name, which for us is `mitxpro-oauth2`
