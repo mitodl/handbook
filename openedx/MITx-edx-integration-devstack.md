@@ -12,7 +12,7 @@ In order to create user accounts in Open edX and enable authentication from MIT 
 
 ## Setup Open edX Devstack
 
-Following steps are inspired by `[edx-devstack](https://github.com/edx/devstack)`.
+Following steps are inspired by [edx-devstack](https://github.com/edx/devstack).
 
 ## Add `/etc/hosts` alias for Open edX
 
@@ -53,7 +53,7 @@ There are two options for this:
 
 #### Install from local Build
 
-- Checkout the `[social-auth-mitxpro](https://github.com/mitodl/social-auth-mitxpro)` project and build the package per the project instructions
+- Checkout the [social-auth-mitxpro](https://github.com/mitodl/social-auth-mitxpro) project and build the package per the project instructions
 - Copy the `social-auth-mitxpro-$VERSION.tar.gz` file into devstack's `edx-platform` directory
 - In devstack, run `make lms-shell` and within that shell `pip install social-auth-mitxpro-$VERSION.tar.gz`
 
@@ -69,7 +69,7 @@ There are two options for this:
 
 #### Install from local Build
 
-- Checkout the `[openedx-companion-auth](https://github.com/mitodl/open-edx-plugins/tree/main/src/openedx_companion_auth)` project and build the package per the project instructions
+- Checkout the [openedx-companion-auth](https://github.com/mitodl/open-edx-plugins/tree/main/src/openedx_companion_auth) project and build the package per the project instructions
 - Copy the `openedx-companion-auth-$VERSION.tar.gz` file from the `dist` folder into devstack's `edx-platform` directory
 - In devstack, run `make lms-shell` and within that shell `pip install openedx-companion-auth-$VERSION.tar.gz`
 
