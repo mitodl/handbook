@@ -12,7 +12,7 @@ In order to create user accounts in Open edX and enable authentication from MIT 
 
 ## Setup Open edX Devstack
 
-Following steps are inspired by `[edx-devstack](https://github.com/edx/devstack)`.
+Following steps are inspired by [edx-devstack](https://github.com/edx/devstack).
 
 ## Add `/etc/hosts` alias for Open edX
 
@@ -53,7 +53,7 @@ There are two options for this:
 
 #### Install from local Build
 
-- Checkout the `[social-auth-mitxpro](https://github.com/mitodl/social-auth-mitxpro)` project and build the package per the project instructions
+- Checkout the [social-auth-mitxpro](https://github.com/mitodl/social-auth-mitxpro) project and build the package per the project instructions
 - Copy the `social-auth-mitxpro-$VERSION.tar.gz` file into devstack's `edx-platform` directory
 - In devstack, run `make lms-shell` and within that shell `pip install social-auth-mitxpro-$VERSION.tar.gz`
 
@@ -69,7 +69,7 @@ There are two options for this:
 
 #### Install from local Build
 
-- Checkout the `[openedx-companion-auth](https://github.com/mitodl/open-edx-plugins/tree/main/src/openedx_companion_auth)` project and build the package per the project instructions
+- Checkout the [openedx-companion-auth](https://github.com/mitodl/open-edx-plugins/tree/main/src/openedx_companion_auth) project and build the package per the project instructions
 - Copy the `openedx-companion-auth-$VERSION.tar.gz` file from the `dist` folder into devstack's `edx-platform` directory
 - In devstack, run `make lms-shell` and within that shell `pip install openedx-companion-auth-$VERSION.tar.gz`
 
@@ -104,7 +104,7 @@ To set up MIT Application:
 
 ## Configure MIT application as a OAuth provider for Open edX
 
-In Open edX (derived from instructions `[here](https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/tpa_integrate_open/tpa_oauth.html#additional-oauth2-providers-advanced)`):
+In Open edX (derived from instructions [`here`](https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/tpa_integrate_open/tpa_oauth.html#additional-oauth2-providers-advanced)):
 
 - Create `private.py` file at `edx-platform/lms/envs/{here}` and add the following configurations to allow additional OAuth providers
 
@@ -130,7 +130,7 @@ In Open edX (derived from instructions `[here](https://edx.readthedocs.io/projec
   }
   ```
 
-- Login to django-admin (default username and password can be found `[here](https://github.com/openedx/devstack#usernames-and-passwords)`), go to `http://edx.odl.local:18000/admin/third_party_auth/oauth2providerconfig/`, and create a new config:
+- Login to django-admin (default username and password can be found [`here`](https://github.com/openedx/devstack#usernames-and-passwords)), go to `http://edx.odl.local:18000/admin/third_party_auth/oauth2providerconfig/`, and create a new config:
 
   - Select the default example site
   - The slug field **MUST** match the the backend's name, which for us is `mitxpro-oauth2`

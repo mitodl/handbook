@@ -14,7 +14,7 @@ In order to create user accounts in Open edX and permit authentication from MIT 
 
 ## Preliminary Step
 
-`pyenv` (and `pyenv-virtualenv`) are highly recommended for managing local Python versions. `Use the instructions on their [GitHub page](https://github.com/pyenv/pyenv) to install if you haven't already installed it.`
+`pyenv` (and `pyenv-virtualenv`) are highly recommended for managing local Python versions. Use the instructions on their [GitHub page](https://github.com/pyenv/pyenv) to install if you haven't already installed it.
 
 You'll want to create at least a virtualenv for Tutor. As of this writing, Tutor uses Python 3.8.12 (in the LMS container at least); I have also successfully used 3.9.16. 3.11 has *not* worked for me.
 
@@ -216,4 +216,4 @@ In the separate browser session, attempt to log in again. This time, you should 
 
 **Restarting** If you want to rebuild from scratch, make sure you `docker image prune`. It's also recommended to remove the Tutor project root folder - `tutor config printroot` will tell you where that is.
 
-**Running Multiple Tutor Instances** If you want to run more than one Tutor instance, it's pretty important to specify the project root explicitly or you may end up with one instance trying to use config files from another and things getting confused from there. `[See the Tutor documentation for this.](https://docs.tutor.overhang.io/local.html#tutor-root)` (A suggestion: configure aliases to the `tutor` command that run `tutor --root=<whatever>` so you don't have to rely on environment variables, especially if you keep multiple terminal sessions going.)
+**Running Multiple Tutor Instances** If you want to run more than one Tutor instance, it's pretty important to specify the project root explicitly or you may end up with one instance trying to use config files from another and things getting confused from there. [`See the Tutor documentation for this.`](https://docs.tutor.overhang.io/local.html#tutor-root) (A suggestion: configure aliases to the `tutor` command that run `tutor --root=<whatever>` so you don't have to rely on environment variables, especially if you keep multiple terminal sessions going.)
