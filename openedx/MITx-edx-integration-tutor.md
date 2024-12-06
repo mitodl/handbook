@@ -104,7 +104,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
    REGISTRATION_EXTRA_FIELDS["country"] = "hidden"
 
-   THIRD_PARTY_AUTH_BACKENDS = ["social_auth_mitxpro.backends.MITxProOAuth2",]
+   THIRD_PARTY_AUTH_BACKENDS = ["ol_social_auth.backends.OLOAuth2",]
 
    AUTHENTICATION_BACKENDS = list(THIRD_PARTY_AUTH_BACKENDS) + list(AUTHENTICATION_BACKENDS)
 
@@ -131,9 +131,9 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
    - Add to the end of the file:
 
-      - `THIRD_PARTY_AUTH_BACKENDS = ['social_auth_mitxpro.backends.MITxProOAuth2']`
+      - `THIRD_PARTY_AUTH_BACKENDS = ['ol_social_auth.backends.OLOAuth2']`
       - `REGISTRATION_EXTRA_FIELDS["country"] = "hidden"`
-      - `AUTHENTICATION_BACKENDS.append('social_auth_mitxpro.backends.MITxProOAuth2')`
+      - `AUTHENTICATION_BACKENDS.append('ol_social_auth.backends.OLOAuth2')`
       - `SOCIAL_AUTH_OAUTH_SECRETS = {"ol-oauth2": <MIT_Client_Secret> }` - Client Secret that you just copied after `configure_instance` management command
       - `IDA_LOGOUT_URI_LIST.append('http://{Domain}:{PORT}/logout/')`
 
