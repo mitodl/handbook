@@ -64,6 +64,8 @@ To set up MIT Application:
    - `OPENEDX_API_BASE_URL`: set to `http://<EDX_HOSTNAME>:<PORT>`
    - `OPENEDX_SERVICE_WORKER_USERNAME`: set to `mit_Application_serviceworker` (unless you changed this)
    - `OPENEDX_SERVICE_WORKER_API_TOKEN`: set to the token you just generated
+   - `OPENEDX_OAUTH_PROVIDER`: set to `ol-oauth2`
+   - `OPENEDX_SOCIAL_LOGIN_PATH`: set to `/auth/login/ol-oauth2/?auth_entry=login`
 
 ### Run the configure_instance command
 
@@ -87,7 +89,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 3. Stop Tutor: `tutor dev stop`
 4. Add extra requirements required for OAuth Configuration:
 
-       tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=social-auth-mitxpro
+       tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=ol-social-auth
        tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=openedx-companion-auth
 
    **NOTE**: Reference for [Installing extra xblocks and requirements](https://docs.tutor.edly.io/configuration.html#installing-extra-xblocks-and-requirements)
@@ -109,7 +111,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
    IDA_LOGOUT_URI_LIST = list(IDA_LOGOUT_URI_LIST) + list(["http://{Domain}:{PORT}/logout"])
 
    SOCIAL_AUTH_OAUTH_SECRETS = {
-      "mitxpro-oauth2": <mit_app_client_secret>  // you just copied from configure_instance command output
+      "ol-oauth2": <mit_app_client_secret>  // you just copied from configure_instance command output
    }
    ```
 
@@ -132,7 +134,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
       - `THIRD_PARTY_AUTH_BACKENDS = ['social_auth_mitxpro.backends.MITxProOAuth2']`
       - `REGISTRATION_EXTRA_FIELDS["country"] = "hidden"`
       - `AUTHENTICATION_BACKENDS.append('social_auth_mitxpro.backends.MITxProOAuth2')`
-      - `SOCIAL_AUTH_OAUTH_SECRETS = {"mitxpro-oauth2": <MIT_Client_Secret> }` - Client Secret that you just copied after `configure_instance` management command
+      - `SOCIAL_AUTH_OAUTH_SECRETS = {"ol-oauth2": <MIT_Client_Secret> }` - Client Secret that you just copied after `configure_instance` management command
       - `IDA_LOGOUT_URI_LIST.append('http://{Domain}:{PORT}/logout/')`
 
     - Find and update:
@@ -156,14 +158,14 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
 
     - Enabled is **checked**.
     - Name: `Login with MIT App`
-    - Slug: `mitxpro-oauth2`
+    - Slug: `ol-oauth2`
     - Site: `local.openedx.io:8000`
     - Skip hinted login dialog is **checked**.
     - Skip registration form is **checked**.
     - Skip email verification is **checked**.
     - Sync learner profile data is **checked**.
     - Enable sso id verification is **checked**.
-    - Backend name: `mitxpro-oauth2`
+    - Backend name: `ol-oauth2`
     - `Client ID` and `Client Secret`: from record created by `configure_instance` when you set up MITx Application.
     - Other settings:
 
