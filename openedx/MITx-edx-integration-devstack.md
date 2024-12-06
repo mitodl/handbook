@@ -43,21 +43,21 @@ to `edx.odl.local`. Your `/etc/hosts` entry should look like this::
 
 ## Setup social auth
 
-### Install `social-auth-mitxpro` in LMS
+### Install `ol-social-auth` in LMS
 
 There are two options for this:
 
 #### Install via pip
 
-    pip install social-auth-mitxpro
+    pip install ol-social-auth
 
 #### Install from local Build
 
-- Checkout the [social-auth-mitxpro](https://github.com/mitodl/social-auth-mitxpro) project and build the package per the project instructions
-- Copy the `social-auth-mitxpro-$VERSION.tar.gz` file into devstack's `edx-platform` directory
-- In devstack, run `make lms-shell` and within that shell `pip install social-auth-mitxpro-$VERSION.tar.gz`
+- Checkout the [ol-social-auth](https://github.com/mitodl/ol-social-auth) project and build the package per the project instructions
+- Copy the `ol-social-auth-$VERSION.tar.gz` file into devstack's `edx-platform` directory
+- In devstack, run `make lms-shell` and within that shell `pip install ol-social-auth-$VERSION.tar.gz`
 
-    - To update to a new development version without having to actually bump the package version, simply `pip uninstall social-auth-mitxpro`, then install again
+    - To update to a new development version without having to actually bump the package version, simply `pip uninstall ol-social-auth`, then install again
 
 ### Install `openedx-companion-auth` in LMS
 
@@ -93,6 +93,8 @@ To set up MIT Application:
    - `OPENEDX_API_BASE_URL`: set to `http://<EDX_HOSTNAME>:<PORT>`
    - `OPENEDX_SERVICE_WORKER_USERNAME`: set to `mit_Application_serviceworker` (unless you changed this)
    - `OPENEDX_SERVICE_WORKER_API_TOKEN`: set to the token you just generated
+   - `OPENEDX_OAUTH_PROVIDER`: set to `ol-oauth2`
+   - `OPENEDX_SOCIAL_LOGIN_PATH`: set to `/auth/login/ol-oauth2/?auth_entry=login`
 
    - Build the MIT Application: `docker-compose build`
 
@@ -119,21 +121,21 @@ In Open edX (derived from instructions [`here`](https://edx.readthedocs.io/proje
 
   REGISTRATION_EXTRA_FIELDS["country"] = "hidden"
 
-  THIRD_PARTY_AUTH_BACKENDS = ["social_auth_mitxpro.backends.MITxProOAuth2",]
+  THIRD_PARTY_AUTH_BACKENDS = ["ol_social_auth.backends.OLOAuth2",]
 
   AUTHENTICATION_BACKENDS = list(THIRD_PARTY_AUTH_BACKENDS) + list(AUTHENTICATION_BACKENDS)
 
   IDA_LOGOUT_URI_LIST = list(IDA_LOGOUT_URI_LIST) + list(["http://{Domain}:{PORT}/logout"])
 
   SOCIAL_AUTH_OAUTH_SECRETS = {
-    "mitxpro-oauth2": <mit_app_client_secret>  // you just copied from configure_instance command output
+    "ol-oauth2": <mit_app_client_secret>  // you just copied from configure_instance command output
   }
   ```
 
 - Login to django-admin (default username and password can be found [`here`](https://github.com/openedx/devstack#usernames-and-passwords)), go to `http://edx.odl.local:18000/admin/third_party_auth/oauth2providerconfig/`, and create a new config:
 
   - Select the default example site
-  - The slug field **MUST** match the the backend's name, which for us is `mitxpro-oauth2`
+  - The slug field **MUST** match the the backend's name, which for us is `ol-oauth2`
   - Check the following checkboxes:
 
     - Enabled
@@ -141,7 +143,7 @@ In Open edX (derived from instructions [`here`](https://edx.readthedocs.io/proje
     - Skip registration form
     - Sync learner profile data
     - Enable SSO id verification
-  - Set Backend name to: `mitxpro-oauth2`
+  - Set Backend name to: `ol-oauth2`
 
   - In "Other settings", put:
 
