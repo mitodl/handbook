@@ -53,7 +53,7 @@ There are two options for this:
 
 #### Install from local Build
 
-- Checkout the [ol-social-auth](https://github.com/mitodl/ol-social-auth) project and build the package per the project instructions
+- Checkout the [ol-social-auth](https://github.com/mitodl/open-edx-plugins/tree/main/src/ol_social_auth) project and build the package per the project instructions
 - Copy the `ol-social-auth-$VERSION.tar.gz` file into devstack's `edx-platform` directory
 - In devstack, run `make lms-shell` and within that shell `pip install ol-social-auth-$VERSION.tar.gz`
 
