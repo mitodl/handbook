@@ -34,7 +34,8 @@ If you have a devstack instance handy, you can export these and import them into
 
 ### Configure Open edX user and token for use with MIT Application management commands
 
-- In Open edX, under `http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/` add access token with that newly created staff user.
+- In Open edX, under [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/)
+ add access token with that newly created staff user.
 
 ### MIT Application Setup
 
