@@ -10,7 +10,7 @@ parent: OpenedX
 
 In order to create user accounts in Open edX and permit authentication from MIT Application to Open edX, you need to configure MIT Application as an OAuth2 provider for Open edX.
 
-## Pre-requiste
+## Prerequisite
 
 To begin, you need to follow the [Installing Tutor for development](https://docs.tutor.edly.io/dev.html#open-edx-development) instructions provided by Tutor **for local development installations**. 
 
@@ -22,7 +22,7 @@ Create a service worker for the MIT Application.
 
     tutor dev do createuser --staff mit_Application_serviceworker service@mitx.odl.local
 
-Log in to your edX and MIT application as an admin and make sure the session remains active throughout the process. (Part of this process will involve mostly breaking authentication, so it's important that you are able to access the admin.)
+Log in to your edX and MIT application as an admin and make sure the session remains active throughout the process. (Part of this process will involve mostly breaking authentication, so it's important that you are able to access the admin).
 
 #### For MITxOnline Only
 For best results, create two new courses within edX. The MITxOnline `configure_instance` command expects a couple of courses to exist in edX (because they come with the devstack package):
@@ -53,7 +53,7 @@ If you have a devstack instance handy, you can export these and import them into
 
 ## MIT Application Setup
 
-To set up MIT Application:
+To set up the MIT Application:
 
 1. Get the gateway IP for the `EDX_APP`
    - Linux users: The gateway IP of the docker-compose networking setup for edx LMS
@@ -70,11 +70,11 @@ To set up MIT Application:
    - `OPENEDX_SERVICE_WORKER_API_TOKEN`: set to the token you just generated
    - `OPENEDX_OAUTH_PROVIDER`: set to `ol-oauth2`
    - `OPENEDX_SOCIAL_LOGIN_PATH`: set to `/auth/login/ol-oauth2/?auth_entry=login`
-   - `OPENEDX_API_CLIENT_ID`: set to the client id of the oauth application you created in the above steps
-   - `OPENEDX_API_CLIENT_SECRET`: set to the client secret of the oauth application you created in the above steps
+   - `OPENEDX_API_CLIENT_ID`: set to the client id of the OAuth application you created in the above steps
+   - `OPENEDX_API_CLIENT_SECRET`: set to the client secret of the OAuth application you created in the above steps
    - `LOGOUT_REDIRECT_URL`: `http://local.openedx.io:8000/logout`
 
-    Run the `docker-compose up -d` command after setting these values
+    Run the `docker-compose up -d` command after setting these values.
 
 3. Run the configure_instance command
 
@@ -127,7 +127,7 @@ To set up MIT Application:
     - Sync learner profile data is **checked**.
     - Enable sso id verification is **checked**.
     - Backend name: `ol-oauth2`
-    - `Client ID` and `Client Secret`: from record created by `configure_instance` when you set up MIT Application.
+    - `Client ID` and `Client Secret`: from the record created by `configure_instance` when you set up the MIT Application.
     - Other settings:
 
           {
@@ -136,7 +136,7 @@ To set up MIT Application:
              "API_ROOT": "http://<MITApplication_GATEWAY_IP>:<PORT>/"
           }
 
-     where MITApplication_GATEWAY_IP is the IP from the `mitApplication_default` network from the first step. **Mac users**, use `host.docker.internal` for MITxApplication_GATEWAY_IP.
+     where `MITApplication_GATEWAY_IP` is the IP from the `mitApplication_default` network from the first step. **Mac users**, use `host.docker.internal` for `MITxApplication_GATEWAY_IP`.
 
 You should now be able to run some MIT Application management commands to ensure the service worker is set up properly:
 
@@ -144,7 +144,7 @@ You should now be able to run some MIT Application management commands to ensure
       - `sync_courseruns --all ALL` in MITxPro
    - `repair_missing_courseware_records` should also work.
 
-In the separate browser session, attempt to log in again. This time, you should be able to log in through MIT Application, and you should be able to get to the edX LMS dashboard. If not, then double-check your provider configuration settings and try again.
+In a separate browser session, attempt to log in again. This time, you should be able to log in through the MIT Application, and you should be able to get to the edX LMS dashboard. If not, then double-check your provider configuration settings and try again.
 
    - If you are still getting "Can't fetch settings" errors, **make sure** your Site is set properly.
 
