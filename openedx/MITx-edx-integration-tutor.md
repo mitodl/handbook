@@ -36,8 +36,8 @@ If you have a devstack instance handy, you can export these and import them into
 
 ## Configure Open edX to support OAuth2 authentication from MIT Application
 
-   - Go to [`http://local.openedx.io:8000/admin/oauth2_provider/application/`](http://local.openedx.io:8000/admin/oauth2_provider/application/) and add the `{app_name}-oauth-app` entry.
-   - Ensure these settings are set:
+   1. Go to [`http://local.openedx.io:8000/admin/oauth2_provider/application/`](http://local.openedx.io:8000/admin/oauth2_provider/application/) and add the `{app_name}-oauth-app` entry.
+   2. Ensure these settings are set:
 
       - Name: `{app_name}-oauth-app` example: `xpro-oauth-app`
       - Redirect uris: `http://{Domain}:{PORT}/login/_private/complete`
@@ -45,11 +45,11 @@ If you have a devstack instance handy, you can export these and import them into
       - Authorization grant type: `Authorization code`
       - Skip authorization is checked.
 
-   - Save `Client id` and `Client secret`.
+   3. Save `Client id` and `Client secret`.
 
 ## Create an access token to use with MIT Application management commands
 
-- In Open edX, under [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/), create an access token with that newly created staff user. Select the `{app_name}-oauth-app` application you created in the previous step.
+In Open edX, under [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/), create an access token with that newly created staff user. Select the `{app_name}-oauth-app` application you created in the previous step.
 
 ## MIT Application Setup
 
