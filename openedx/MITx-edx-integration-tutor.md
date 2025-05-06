@@ -10,7 +10,7 @@ parent: OpenedX
 
 In order to create user accounts in Open edX and permit authentication from MIT Application to Open edX, you need to configure MIT Application as an OAuth2 provider for Open edX.
 
-## Tutor Setup, Part One
+## Pre-requiste
 
 To begin, you need to follow the [Installing Tutor for development](https://docs.tutor.edly.io/dev.html#open-edx-development) instructions provided by Tutor **for local development installations**. 
 
@@ -18,11 +18,13 @@ Once Tutor has bootstrapped itself and is available, create a superuser account:
 
     tutor dev do createuser --staff --superuser edx edx@example.org
 
-Create a service worker for MITx Application.
+Create a service worker for the MIT Application.
 
     tutor dev do createuser --staff mit_Application_serviceworker service@mitx.odl.local
 
-### For MITxOnline Only
+Log in to your edX and MIT application as an admin and make sure the session remains active throughout the process. (Part of this process will involve mostly breaking authentication, so it's important that you are able to access the admin.)
+
+#### For MITxOnline Only
 For best results, create two new courses within edX. The MITxOnline `configure_instance` command expects a couple of courses to exist in edX (because they come with the devstack package):
 
 | Course ID                       | Course Title         |
@@ -32,18 +34,33 @@ For best results, create two new courses within edX. The MITxOnline `configure_i
 
 If you have a devstack instance handy, you can export these and import them into Tutor. Otherwise, just create them and make sure to set dates for the courses (they default to 2030 otherwise).
 
-### Configure Open edX user and token for use with MIT Application management commands
+## Configure Open edX to support OAuth2 authentication from MIT Application
 
-- In Open edX, under [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/)
- add access token with that newly created staff user.
+   - Go to [`http://local.openedx.io:8000/admin/oauth2_provider/application/`](http://local.openedx.io:8000/admin/oauth2_provider/application/) and add the `{app_name}-oauth-app` entry.
+   - Ensure these settings are set:
 
-### MIT Application Setup
+      - Name: `{app_name}-oauth-app` example: `xpro-oauth-app`
+      - Redirect uris: `http://{Domain}:{PORT}/login/_private/complete`
+      - Client type: `Confidential`
+      - Authorization grant type: `Authorization code`
+      - Skip authorization is checked.
+
+   - Save `Client id` and `Client secret`.
+
+## Create an access token to use with MIT Application management commands
+
+- In Open edX, under [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/), create an access token with that newly created staff user. Select the `{app_name}-oauth-app` application you created in the previous step.
+
+## MIT Application Setup
 
 To set up MIT Application:
 
 1. Get the gateway IP for the `EDX_APP`
-   1. Linux users: The gateway IP of the docker-compose networking setup for edx LMS `docker network inspect tutor_dev_default | grep Gateway`.
-   2. OSX users: Use `host.docker.internal`
+   - Linux users: The gateway IP of the docker-compose networking setup for edx LMS
+
+         docker network inspect tutor_dev_default | grep Gateway
+
+   - OSX users: Use `host.docker.internal`
 
 2. Set up your `.env` file. These settings need particular attention:
 
@@ -53,31 +70,29 @@ To set up MIT Application:
    - `OPENEDX_SERVICE_WORKER_API_TOKEN`: set to the token you just generated
    - `OPENEDX_OAUTH_PROVIDER`: set to `ol-oauth2`
    - `OPENEDX_SOCIAL_LOGIN_PATH`: set to `/auth/login/ol-oauth2/?auth_entry=login`
+   - `OPENEDX_API_CLIENT_ID`: set to the client id of the oauth application you created in the above steps
+   - `OPENEDX_API_CLIENT_SECRET`: set to the client secret of the oauth application you created in the above steps
+   - `LOGOUT_REDIRECT_URL`: `http://local.openedx.io:8000/logout`
 
-### Run the configure_instance command
+    Run the `docker-compose up -d` command after setting these values
 
-    docker-compose run --rm web ./manage.py configure_instance linux --gateway <ip> --tutor-dev
+3. Run the configure_instance command
 
-  Where `<ip>` is the IP from the first step.(On macOS, specify macos instead of linux. You can also skip --gateway.) You will need to supply passwords for the MITx Application superuser and test learner accounts. **Make a note of the client ID and secret that it will print out at the end.**
+       docker-compose run --rm web ./manage.py configure_instance linux --gateway <ip> --tutor-dev
 
-
-## Tutor Setup, Part Two
-
-Note that some of these steps require editing the main configuration files for the production instance (which is also used for a local deployment). Most of the settings that need to be adjusted to get integration working are overridden by the default Tutor configuration, so you can't update them by setting `config.yml`. If you're using the development Tutor build, you'll likely need to edit `development.py` rather than `production.py` as necessary.
-
-These steps will also disable the AuthN SSO MFE, so from here on you'll get normal edX authentication screens (if you're not being bounced to MITx Application).
+      Where `<ip>` is the IP from the first step. (On macOS, specify macos instead of linux. You can also skip --gateway.) You will need to supply passwords for the MIT Application superuser and test learner accounts. **Make a note of the client ID and secret that will print out at the end.**
 
 
-1. Get the gateway IP of the `mitApplication_default` Docker network. Example:
+## EdX Application Setup
+
+1. Linux Users: Get the gateway IP of the `mitApplication_default` Docker network. Example:
 
        docker network inspect mitxpro_default | grep Gateway
 
-2. Log in to edX using your superuser account, and make sure your session stays open. Sessions are pretty long-lived so this just means not closing the browser that you started the session in. (Part of this process will involve mostly breaking authentication so it's important that you are able to get into the admin.)
+3. Open the LMS container shell using `tutor dev exec -it lms bash` and install the required dependencies:
 
-3. Open the lms container shell using `tutor dev exec -it lms bash` and install the required dependencies:
-
-      pip install ol-social-auth
-      pip install openedx-companion-auth
+       pip install ol-social-auth
+       pip install openedx-companion-auth
 
 4. Create a `private.py` file at `edx-platform/lms/envs/{here}` and add the following configurations to allow additional OAuth providers
 
@@ -100,15 +115,7 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
    }
    ```
 
-5. Restart Tutor: `tutor dev start -d`
-6. Check your settings. There's a `print_setting` command that you can use to verify everything is set properly:
-
-    - `tutor dev run lms ./manage.py lms print_setting REGISTRATION_EXTRA_FIELDS`
-    - `tutor dev run lms ./manage.py lms print_setting AUTHENTICATION_BACKENDS`
-    - `tutor dev run lms ./manage.py lms print_setting FEATURES` - will print a lot of stuff
-    - `tutor dev run lms ./manage.py lms print_setting THIRD_PARTY_AUTH_BACKENDS`
-
-7. Go to `http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/` and add a provider configuration:
+5. Go to [`http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/`](http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/) and add a provider configuration:
 
     - Enabled is **checked**.
     - Name: `Login with MIT App`
@@ -130,27 +137,6 @@ These steps will also disable the AuthN SSO MFE, so from here on you'll get norm
           }
 
      where MITApplication_GATEWAY_IP is the IP from the `mitApplication_default` network from the first step. **Mac users**, use `host.docker.internal` for MITxApplication_GATEWAY_IP.
-
-### Configure Open edX to support OAuth2 authentication from MITx Application
-
-   - Go to `http://local.openedx.io:8000/admin/oauth2_provider/application/` and add/edit the `edx-oauth-app` entry.
-   - Ensure these settings are set:
-
-      - Name: `edx-oauth-app`
-      - Redirect uris: `http://{Domain}:{PORT}/login/_private/complete`
-      - Client type: `Confidential`
-      - Authorization grant type: `Authorization code`
-      - Skip authorization is checked.
-
-   - Save `Client id` and `Client secret`.
-
-Update your MIT Application `.env` file. Set `OPENEDX_API_CLIENT_ID` and `OPENEDX_API_CLIENT_SECRET` to the values from the record you created or updated in the last step.
-
-Also set the **LOGOUT_REDIRECT_URL** in `.env`:
-
-    LOGOUT_REDIRECT_URL=http://local.openedx.io:8000/logout
-
-  - Build the MIT Application: `docker-compose build`
 
 You should now be able to run some MIT Application management commands to ensure the service worker is set up properly:
 
