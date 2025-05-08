@@ -3,7 +3,7 @@ parent: OpenedX
 ---
 # Integrating MIT Applications with Open edX using Tutor
 
-| Application | PORT | Domain               |
+| Application | Port | MIT_APP_Domain       |
 |-------------|------|----------------------|
 | MITxPro     | 8053 | xpro.odl.local       |
 | MITxOnline  | 8013 | mitxonline.odl.local |
@@ -18,7 +18,7 @@ Once Tutor has bootstrapped itself and is available, create a superuser account:
 
     tutor dev do createuser --staff --superuser edx edx@example.org
 
-Create a service worker for the MIT Application.
+Create a service worker for the MIT Application. Remember the password. You will need it to log in in later steps.
 
     tutor dev do createuser --staff mit_Application_serviceworker service@mitx.odl.local
 
@@ -39,8 +39,8 @@ If you have a devstack instance handy, you can export these and import them into
    1. Go to [`http://local.openedx.io:8000/admin/oauth2_provider/application/`](http://local.openedx.io:8000/admin/oauth2_provider/application/) and add the `{app_name}-oauth-app` entry.
    2. Ensure these settings are set:
 
-      - Name: `{app_name}-oauth-app` example: `xpro-oauth-app`
-      - Redirect uris: `http://{Domain}:{PORT}/login/_private/complete`
+      - Name: `{app_name}-oauth-app`  (Example: `xpro-oauth-app`)
+      - Redirect uris: `http://{MIT_APP_Domain}:{Port}/login/_private/complete` (Example: For MIT xPRO, it will be `http://xpro.odl.local:8053/login/_private/complete`)
       - Client type: `Confidential`
       - Authorization grant type: `Authorization code`
       - Skip authorization is checked.
@@ -49,7 +49,9 @@ If you have a devstack instance handy, you can export these and import them into
 
 ## Create an access token to use with MIT Application management commands
 
-In Open edX, under [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/), create an access token with that newly created staff user. Select the `{app_name}-oauth-app` application you created in the previous step.
+1. In a private window, log in with the service account you created in the "Prerequisite" step above. This will generate an access token for the service user.
+2. Go to [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/) and verify that the access token has been generated for the service worker account.
+3. Modify the `Expires` date to a date in the future and save the changes.
 
 ## MIT Application Setup
 
@@ -78,10 +80,9 @@ To set up the MIT Application:
 
 3. Run the configure_instance command
 
-       docker-compose run --rm web ./manage.py configure_instance linux --gateway <ip> --tutor-dev
-
-      Where `<ip>` is the IP from the first step. (On macOS, specify macos instead of linux. You can also skip --gateway.) You will need to supply passwords for the MIT Application superuser and test learner accounts. **Make a note of the client ID and secret that will print out at the end.**
-
+    For `gateway_ip`, use the Gateway IP from the first step. (Specify `macos` or `linux` based on your OS. You can also skip --gateway.) The command will print `Client ID` and `Client Secret` that you will need further in the setup, so keep them safe. Alternatively, you can access the `Client ID` and `Client Secret` through the MIT Application's `/admin/oauth2_provider/application/`
+           
+           docker-compose run --rm web ./manage.py configure_instance <linux or macos> --gateway <gateway_ip from above step> --tutor-dev
 
 ## EdX Application Setup
 
@@ -108,7 +109,7 @@ To set up the MIT Application:
 
    AUTHENTICATION_BACKENDS = list(THIRD_PARTY_AUTH_BACKENDS) + list(AUTHENTICATION_BACKENDS)
 
-   IDA_LOGOUT_URI_LIST = list(IDA_LOGOUT_URI_LIST) + list(["http://{Domain}:{PORT}/logout"])
+   IDA_LOGOUT_URI_LIST = list(IDA_LOGOUT_URI_LIST) + list(["http://{MIT_APP_Domain}:{Port}/logout"]) (Example: For MIT xPRO, it will be `http://xpro.odl.local:8053/logout`)
 
    SOCIAL_AUTH_OAUTH_SECRETS = {
       "ol-oauth2": <mit_app_client_secret>  // you just copied from configure_instance command output
@@ -131,9 +132,9 @@ To set up the MIT Application:
     - Other settings:
 
           {
-             "AUTHORIZATION_URL": "http://{Domain}:{PORT}/oauth2/authorize/",
-             "ACCESS_TOKEN_URL": "http://<MITApplication_GATEWAY_IP>:<PORT>/oauth2/token/",
-             "API_ROOT": "http://<MITApplication_GATEWAY_IP>:<PORT>/"
+             "AUTHORIZATION_URL": "http://{MIT_APP_Domain}:{Port}/oauth2/authorize/", (Example: For MIT xPRO it will be `http://xpro.odl.local:8053/oauth2/authorize/`)
+             "ACCESS_TOKEN_URL": "http://<MITApplication_GATEWAY_IP>:<Port>/oauth2/token/",
+             "API_ROOT": "http://<MITApplication_GATEWAY_IP>:<Port>/"
           }
 
      where `MITApplication_GATEWAY_IP` is the IP from the `mitApplication_default` network from the first step. **Mac users**, use `host.docker.internal` for `MITxApplication_GATEWAY_IP`.
