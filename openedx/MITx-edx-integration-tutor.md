@@ -18,10 +18,6 @@ Once Tutor has bootstrapped itself and is available, create a superuser account:
 
     tutor dev do createuser --staff --superuser edx edx@example.org
 
-Create a service worker for the MIT Application. Remember the password. You will need it to log in in later steps.
-
-    tutor dev do createuser --staff mit_Application_serviceworker service@mitx.odl.local
-
 Log in to your edX and MIT application as an admin and make sure the session remains active throughout the process. (Part of this process will involve mostly breaking authentication, so it's important that you are able to access the admin).
 
 #### For MITxOnline Only
@@ -49,9 +45,13 @@ If you have a devstack instance handy, you can export these and import them into
 
 ## Create an access token to use with MIT Application management commands
 
-1. In a private window, log in with the service account you created in the "Prerequisite" step above. This will generate an access token for the service user.
-2. Go to [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/) and verify that the access token has been generated for the service worker account.
-3. Modify the `Expires` date to a date in the future and save the changes.
+1. Create a service worker for the MIT Application. Remember the password.
+
+       tutor dev do createuser --staff mit_Application_serviceworker service@mitx.odl.local
+
+2. In a private window, log in with the service account you created in step 1. This will generate an access token for the service user.
+3. Go to [`http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/`](http://local.openedx.io:8000/admin/oauth2_provider/accesstoken/) and verify that the access token has been generated for the service worker account.
+4. Modify the `Expires` date to a date in the future and save the changes.
 
 ## MIT Application Setup
 
@@ -67,22 +67,22 @@ To set up the MIT Application:
 2. Set up your `.env` file. These settings need particular attention:
 
    - `OPENEDX_IP`: set to the gateway IP from the first step.
-   - `OPENEDX_API_BASE_URL`: set to `http://local.openedx.io:8000`
+   - `OPENEDX_API_BASE_URL`: set to `http://<EDX_HOSTNAME>:<PORT>` (You can use `http://local.openedx.io:8000` in case you are using tutor for local development)
    - `OPENEDX_SERVICE_WORKER_USERNAME`: set to `mit_Application_serviceworker` (unless you changed this)
-   - `OPENEDX_SERVICE_WORKER_API_TOKEN`: set to the token you just generated
+   - `OPENEDX_SERVICE_WORKER_API_TOKEN`: set to the token you just generated in the above step
    - `OPENEDX_OAUTH_PROVIDER`: set to `ol-oauth2`
    - `OPENEDX_SOCIAL_LOGIN_PATH`: set to `/auth/login/ol-oauth2/?auth_entry=login`
    - `OPENEDX_API_CLIENT_ID`: set to the client id of the OAuth application you created in the above steps
    - `OPENEDX_API_CLIENT_SECRET`: set to the client secret of the OAuth application you created in the above steps
-   - `LOGOUT_REDIRECT_URL`: `http://local.openedx.io:8000/logout`
+   - `LOGOUT_REDIRECT_URL`: set to `http://<EDX_HOSTNAME>:<PORT>/logout` (You can use `http://local.openedx.io:8000/logout` in case you are using tutor for local development)
 
     Run the `docker-compose up -d` command after setting these values.
 
-3. Run the configure_instance command
+3. Run the **configure_instance** command
 
     For `gateway_ip`, use the Gateway IP from the first step. (Specify `macos` or `linux` based on your OS. You can also skip --gateway.) The command will print `Client ID` and `Client Secret` that you will need further in the setup, so keep them safe. Alternatively, you can access the `Client ID` and `Client Secret` through the MIT Application's `/admin/oauth2_provider/application/`
            
-           docker-compose run --rm web ./manage.py configure_instance <linux or macos> --gateway <gateway_ip from above step> --tutor-dev
+       docker-compose run --rm web ./manage.py configure_instance <linux or macos> --gateway <gateway_ip from above step> --tutor-dev
 
 ## EdX Application Setup
 
@@ -90,12 +90,15 @@ To set up the MIT Application:
 
        docker network inspect mitxpro_default | grep Gateway
 
-3. Open the LMS container shell using `tutor dev exec -it lms bash` and install the required dependencies:
+2. Install the required dependencies using one of the following:
 
-       pip install ol-social-auth
-       pip install openedx-companion-auth
+   - **Option 1:** Open the LMS container shell using `tutor dev exec -it lms bash` and run:
+     
+         pip install ol-social-auth openedx-companion-auth
 
-4. Create a `private.py` file at `edx-platform/lms/envs/{here}` and add the following configurations to allow additional OAuth providers
+   - **Option 2:** Follow the [Tutor guide for installing extra requirements](https://docs.tutor.edly.io/configuration.html#installing-extra-xblocks-and-requirements).
+
+3. Create a `private.py` file under `edx-platform/lms/envs/` and add the following configurations to allow additional OAuth providers
 
    ```
    from .production import AUTHENTICATION_BACKENDS, FEATURES, IDA_LOGOUT_URI_LIST, REGISTRATION_EXTRA_FIELDS
@@ -116,7 +119,7 @@ To set up the MIT Application:
    }
    ```
 
-5. Go to [`http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/`](http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/) and add a provider configuration:
+4. Go to [`http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/`](http://local.openedx.io:8000/admin/third_party_auth/oauth2providerconfig/add/) and add a provider configuration:
 
     - Enabled is **checked**.
     - Name: `Login with MIT App`
@@ -151,8 +154,6 @@ In a separate browser session, attempt to log in again. This time, you should be
 
 **Optionally**, log into the LMS Django Admin and make your MIT Application superuser account a superuser there too.
 
-## Other Notes
-
-**Make sure your service worker account is active.** It's an easy checkbox to miss.
+## Troubleshooting
 
 **Restarting** If you want to rebuild from scratch, make sure you `docker image prune`. It's also recommended to remove the Tutor project root folder - `tutor config printroot` will tell you where that is.
