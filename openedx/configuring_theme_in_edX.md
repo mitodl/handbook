@@ -27,17 +27,19 @@ For each of our applications, we have a theme that overrides the branding in our
    git clone <theme-repo-url for e.g, https://github.com/mitodl/mitxonline-theme>
    ```
 
-4. **Build the Theme Assets**
-
-   Enter the LMS container and run the Webpack watcher:
-   ```bash
-   tutor dev run lms bash
-   npm run watch
-   ```
-
-5. **Apply the Theme**
+3. **Apply the Theme**
 
    Run this command to apply your custom theme:
    ```bash
    tutor dev do settheme <theme-name for e.g, mitxonline-theme>
    ```
+   Restart the LMS/CMS container.
+
+
+4. **Run the theme watcher**
+
+   Watch the themes folders for changes:
+   ```bash
+   tutor dev run watchthemes
+   ```
+
