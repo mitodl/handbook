@@ -9,8 +9,6 @@ For each of our applications, we have a theme that overrides the branding in our
 - MITxPro theme: https://github.com/mitodl/mitxpro-theme
 - Residential theme: https://github.com/mitodl/mitx-theme
 
-For detail about themes, please see [edx-docs about themes](https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/changing_appearance/theming/overview_themes.html).
-
 1. **Navigate to the Tutor Project Root Directory**
 
    Run the following command to go to the Tutor root path:
