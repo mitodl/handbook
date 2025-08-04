@@ -9,14 +9,19 @@ For each of our applications, we have a theme that overrides the branding in our
 - MITxPro theme: https://github.com/mitodl/mitxpro-theme
 - Residential theme: https://github.com/mitodl/mitx-theme
 
-1. **Navigate to the Tutor Project Root Directory**
+1. In edx-platform, add the following in your `private.py` file:
+   ```bash
+   MARKETING_SITE_BASE_URL = <Your local marketing site url, for example, for MITxPRO we have http://xpro.odl.local:8053> 
+   ```
+
+2. **Navigate to the Tutor Project Root Directory**
 
    Run the following command to go to the Tutor root path:
    ```bash
    cd "$(tutor config printroot)"
    ```
 
-2. **Clone the Theme Repository**
+3. **Clone the Theme Repository**
 
    Go to the following directory inside the Tutor root:
    ```
@@ -27,7 +32,7 @@ For each of our applications, we have a theme that overrides the branding in our
    git clone <theme-repo-url for e.g, https://github.com/mitodl/mitxonline-theme>
    ```
 
-3. **Apply the Theme**
+4. **Apply the Theme**
 
    Run this command to apply your custom theme:
    ```bash
@@ -36,10 +41,16 @@ For each of our applications, we have a theme that overrides the branding in our
    Restart the LMS/CMS container.
 
 
-4. **Run the theme watcher**
+5. **Run the theme watcher**
 
    Watch the themes folders for changes:
    ```bash
    tutor dev run watchthemes
    ```
 
+## Other Settings (Not required for local setup)
+
+The configuration above is enough to run the themes locally. Below are some of the settings required for deployments:
+
+- `ENABLE_COMPREHENSIVE_THEMING`: When enabled, this toggle activates the use of the custom theme.
+- `COMPREHENSIVE_THEME_DIRS`: A list of paths to directories, each of which will be searched for comprehensive themes.
