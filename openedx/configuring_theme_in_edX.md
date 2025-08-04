@@ -9,14 +9,23 @@ For each of our applications, we have a theme that overrides the branding in our
 - MITx Pro theme: https://github.com/mitodl/mitxpro-theme
 - Residential theme: https://github.com/mitodl/mitx-theme
 
-1. **Navigate to the Tutor Project Root Directory**
+1. In edx-platform, add the following in your `private.py` file:
+   ```python
+   MARKETING_SITE_BASE_URL = <Your local marketing site url, for example, for MITxPRO we have http://xpro.odl.local:8053>
+
+   # For MITx Online only
+   UAI_COURSE_KEY_FORMATS = ["course-v1:uai_", "course-v1:mit_et"]
+   MIT_LEARN_BASE_URL = "https://learn.mit.edu"
+   MIT_BASE_URL = "https://mit.edu"
+   ```
+2. **Navigate to the Tutor Project Root Directory**
 
    Run the following command to go to the Tutor root path:
    ```
    cd "$(tutor config printroot)"
    ```
 
-2. **Clone the Theme Repository**
+3. **Clone the Theme Repository**
 
    Go to the following directory inside the Tutor root:
    ```
@@ -27,16 +36,17 @@ For each of our applications, we have a theme that overrides the branding in our
    git clone <theme-repo-url for e.g, https://github.com/mitodl/mitxonline-theme>
    ```
 
-3. **Apply the Theme**
+4. **Apply the Theme**
 
    Run this command to apply your custom theme:
    ```
    tutor dev do settheme <theme-name for e.g, mitxonline-theme>
    ```
+
    Restart the LMS/CMS container.
 
 
-4. **Run the theme watcher**
+5. **Run the theme watcher**
 
    Watch the themes folders for changes:
    ```
