@@ -5,23 +5,18 @@ parent: OpenedX
 # Configuring themes in edX
 
 For each of our applications, we have a theme that overrides the branding in our legacy edX pages:
-- MITxOnline theme: https://github.com/mitodl/mitxonline-theme
-- MITxPro theme: https://github.com/mitodl/mitxpro-theme
+- MITx Online theme: https://github.com/mitodl/mitxonline-theme
+- MITx Pro theme: https://github.com/mitodl/mitxpro-theme
 - Residential theme: https://github.com/mitodl/mitx-theme
 
-1. In edx-platform, add the following in your `private.py` file:
-   ```
-   MARKETING_SITE_BASE_URL = <Your local marketing site url, for example, for MITxPRO we have http://xpro.odl.local:8053> 
-   ```
-
-2. **Navigate to the Tutor Project Root Directory**
+1. **Navigate to the Tutor Project Root Directory**
 
    Run the following command to go to the Tutor root path:
    ```
    cd "$(tutor config printroot)"
    ```
 
-3. **Clone the Theme Repository**
+2. **Clone the Theme Repository**
 
    Go to the following directory inside the Tutor root:
    ```
@@ -32,7 +27,7 @@ For each of our applications, we have a theme that overrides the branding in our
    git clone <theme-repo-url for e.g, https://github.com/mitodl/mitxonline-theme>
    ```
 
-4. **Apply the Theme**
+3. **Apply the Theme**
 
    Run this command to apply your custom theme:
    ```
@@ -41,7 +36,7 @@ For each of our applications, we have a theme that overrides the branding in our
    Restart the LMS/CMS container.
 
 
-5. **Run the theme watcher**
+4. **Run the theme watcher**
 
    Watch the themes folders for changes:
    ```
