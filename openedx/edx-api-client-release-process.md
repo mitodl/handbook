@@ -10,17 +10,14 @@ This document describes the process for publishing a new release of the `edx-api
 
 1. **Go to Slack**
    - Open the `doof-edx-api-client` Slack channel.
-   - Send the message: `@doof release notes`
-   - This will cut a new release using the latest commits from the `master` branch.
+   - Cut a new release using `@doof release notes` and then selecting the appropriate version.
+   - This will cut a new release and create a PR using the latest commits from the `master` branch.
 
 2. **Test the Release**
-   - Ensure you have tested the changes locally.
-   - You can use the `release-candidate` branch to test the latest changes that will go to PyPI.
-   - After thorough testing, check the box in the new release on GitHub to confirm testing is complete.
+   - Test the release PR locally, and check all the boxes. (Never merge this PR manually)
 
 3. **Publish to PyPI**
-   - Go back to the Slack channel.
-   - Send the message: `@doof publish <new-version>`.
-   - This will publish the new release to PyPI automatically.
+   - Go back to the `doof-edx-api-client` Slack channel.
+   - Publish the new release to PyPI using `@doof publish <new-version>` (new-version is the version that you selected upon cutting a new release).
 
 ---
