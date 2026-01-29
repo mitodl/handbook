@@ -37,7 +37,7 @@ If you have a devstack instance handy, you can export these and import them into
 
       - Name: `{app_name}-oauth-app`  (Example: `xpro-oauth-app`)
       - Redirect uris: `http://{MIT_APP_Domain}:{Port}/login/_private/complete` (Example: For MIT xPRO, it will be `http://xpro.odl.local:8053/login/_private/complete`)
-        For MITxOnline only, add this URL (on a new line) in the Redirect uris: `http://mitxonline.odl.local:9080/_/auth/complete`
+        For MITxOnline only, add the following URL under Redirect URIs: `http://mitxonline.odl.local:9080/_/auth/complete`
       - Client type: `Confidential`
       - Authorization grant type: `Authorization code`
       - Skip authorization is checked.
