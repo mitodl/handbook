@@ -20,7 +20,7 @@ To run this locally, you need Ruby and the bunder gem installed. The recommended
     - **OSX users**:
       1. Update Homebrew (`brew update`)
       1. Follow the [rvm installation guide](https://rvm.io/rvm/install#installing-rvm). Running the `gpg` command and the first `curl` command should work (confirmed January 2021).
-- `rvm install RUBY_VERSION` - as of this writing, Ruby 2.7.1 was the latest and known to work
+- `rvm install RUBY_VERSION` - as of this writing, Ruby 3.4.9 was the latest and known to work
 - `gem install bundler`
 
 
