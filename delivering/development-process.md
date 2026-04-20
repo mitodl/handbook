@@ -2,11 +2,11 @@
 parent: How We Deliver
 ---
 # Development Process
-An approximate workflow guide to hacking on software at the MIT Office of Digital Learning.
+An approximate workflow guide to hacking on software at MIT Open Learning.
 
 # Purpose
 Every team of developers has its own particular approach to writing, reviewing, and deploying code.
-This guide aims to capture MIT ODL's way of doing things. It will be (hopefully) useful as a
+This guide aims to capture MIT OL's way of doing things. It will be (hopefully) useful as a
 step-by-step guide for new developers.
 
 # Tools
