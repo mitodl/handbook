@@ -76,7 +76,7 @@ For example, if you're testing a list API, create 5-10 records at each level of 
 
 There are several ways to prefetch data:
 
-- `select_related(...)` - this only useful for foreign key relationships
+- `select_related(...)` - this is only useful for foreign key relationships
 - `prefetch_related(...)` - useful for one-to-many or many-to-many relationships
 - `prefetch(...)` - this is useful for nested relationships where the model does not have a direct relationship to the object being looked up
 
@@ -125,9 +125,9 @@ class ProgramTitlesPrefetcher(Prefetcher):
         ).aggregate(
             # postgres-specific aggregation
             course_ids=ArrayAgg("course__id")
-        ).only("title", "course_ids") # only the fields we will use
+        ).only("title") # only the fields we will use
 
-    def reverse_mapper(self, programs):
+    def reverse_mapper(self, program):
         return program.course_ids # map the program back to the course ids that are in it
 
     def decorator(self, enrollment, programs=None):
@@ -171,7 +171,7 @@ class EnrollmentManager(PrefetchManagerMixin):
 
 ### Enforce Prefetching
 
-You should have your serializers subclass `mitol.common.serializers.BaseSerializer` and then define `required_prefetches`:
+You should have your serializers subclass `mitol.common.serializers.BaseSerializer` and then define `required_prefetches`. If you do not define `required_prefetches`, a `RequiredPrefetchesNotDefinedError` error will be raised on serializer init:
 
 ```python
 from mitol.common.serializers import BaseSerializer
@@ -182,6 +182,6 @@ class EnrollmentSerializer(BaseSerializer):
     ]
 ```
 
-This will ensure that the serializer can't be used without that prefetch having been done or it will raise a `RequiredPrefetchMissingException` naming the prefetch that wasn't requested. A "prefetch" in this situation is anything that should be `prefetch()`, `prefetch_related()`, or `select_related()`.
+This will ensure that the serializer can't be used without that prefetch having been done or it will raise a `RequiredPrefetchMissingError` naming the prefetch that wasn't requested. A "prefetch" in this situation is anything that should be `prefetch()`, `prefetch_related()`, or `select_related()`.
 
 You can opt out of this for tests and async code such as celery tasks by passing `{"skip_prefetch_checks": THIS_IS_NOT_AN_API}`. As the name (and you) attests to, this should not be used _anywhere_ near an API including when other serializers call it. DRF will propagate the context into child serializers as well.
