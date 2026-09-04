@@ -17,6 +17,7 @@ For each of our applications, we have a theme that overrides the branding in our
    UAI_COURSE_KEY_FORMATS = ["course-v1:uai_", "course-v1:mit_et"]
    MIT_LEARN_BASE_URL = "https://learn.mit.edu"
    MIT_BASE_URL = "https://mit.edu"
+   MIT_LEARN_SUPPORT_SITE_LINK = "https://support.learn.mit.edu/"
    ```
 2. **Navigate to the Tutor Project Root Directory**
 
